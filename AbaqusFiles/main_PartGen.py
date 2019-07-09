@@ -6,7 +6,7 @@ def partRectGen(partname, circleData=[]):
     s = mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=150.0)
     g, v, d, c = s.geometry, s.vertices, s.dimensions, s.constraints
     s.setPrimaryObject(option=STANDALONE)
-    s.rectangle(point1=(-75.0, 75.0), point2=(75.0, -75.0))#setCubic
+    s.rectangle(point1=(0, 0), point2=(150, 150))#setCubic
     for number in range(len(circleData)):
         s.CircleByCenterPerimeter(center=(circleData[number][0], circleData[number][1]), point1=(circleData[number][0]+circleData[number][2],circleData[number][1])) #setCircle
     p = mdb.models['Model-1'].Part(name=partname, dimensionality=TWO_D_PLANAR, 
@@ -17,7 +17,7 @@ def partRectGen(partname, circleData=[]):
     p = mdb.models['Model-1'].parts[partname]
     del mdb.models['Model-1'].sketches['__profile__']
 
-def partCircleGen(partname,target_x,target_y,radi):#single
+def partCircleGen(partname,target_x,target_y,radi):#single CIrcle
     s1 = mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=150.0)
     g, v, d, c = s1.geometry, s1.vertices, s1.dimensions, s1.constraints
     s1.setPrimaryObject(option=STANDALONE)

@@ -27,17 +27,18 @@ main_Property.materialCreate('MainPart',5000,0.3)#property of mortar
 main_Property.sectionCreate('MainPart','MainPart')
 main_Property.assignSection('MainPart','MainPart')
 
-
+main_PartAssem.partInst('MainPart')
 map(main_PartAssem.partInst,partName)
 
 for number in range(len(partName)):
-    main_Interaction.creatingTie('MainPart',partName[number],circleData[number][0],circleData[number][1],circleData[number][2])
+    main_Interaction.creatingTie('MainPart',partName[number],circleData[number][0],circleData[number][1],circleData[number][2],number)
+
+
+#-----------------------------step
+mdb.models['Model-1'].StaticStep(name='Step-1', previous='Initial')
 
 main_Load.setLoad('MainPart',0.1,1)
 main_Load.setBoundary('MainPart',1)
 
 main_Mesh.Mesh('MainPart')
 map(main_Mesh.Mesh,partName)
-
-#-----------------------------step
-mdb.models['Model-1'].StaticStep(name='Step-1', previous='Initial')
