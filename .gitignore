@@ -126,3 +126,4 @@ dmypy.json
 *.ipm
 *.msg
 *.rec
+*.dmp

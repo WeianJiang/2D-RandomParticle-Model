@@ -9,7 +9,7 @@ def Mesh(partname):
     p.setMeshControls(regions=pickedRegions, elemShape=TRI)
     #----------Seeding
     p = mdb.models['Model-1'].parts[partname]
-    p.seedPart(size=14.0, deviationFactor=0.1, minSizeFactor=0.1)
+    p.seedPart(size=5.0, deviationFactor=0.1, minSizeFactor=0.1)
     #---------------mesh
     p = mdb.models['Model-1'].parts[partname]
     p.generateMesh()

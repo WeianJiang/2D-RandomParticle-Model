@@ -37,7 +37,7 @@ for number in range(len(partName)):
 #-----------------------------step
 mdb.models['Model-1'].StaticStep(name='Step-1', previous='Initial')
 
-main_Load.setLoad('MainPart',0.1,1)
+main_Load.setLoad('MainPart',1000,1)
 main_Load.setBoundary('MainPart',1)
 
 main_Mesh.Mesh('MainPart')
