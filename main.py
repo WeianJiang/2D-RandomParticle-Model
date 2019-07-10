@@ -40,5 +40,5 @@ mdb.models['Model-1'].StaticStep(name='Step-1', previous='Initial')
 main_Load.setLoad('MainPart',1000,1)
 main_Load.setBoundary('MainPart',1)
 
-main_Mesh.Mesh('MainPart')
-map(main_Mesh.Mesh,partName)
+main_Mesh.Mesh('MainPart',14)
+map(main_Mesh.Mesh,partName,14)
