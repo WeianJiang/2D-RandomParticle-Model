@@ -16,14 +16,16 @@ for number in range(len(circleData)):
     partName.append('Part-'+str(number))
 
 main_PartGen.partRectGen('MainPart',circleData)
+GraniteElastic=np.loadtxt('GraniteElastic.txt')
+
 
 for number in range(len(partName)):
     main_PartGen.partCircleGen(partName[number],circleData[number][0],circleData[number][1],circleData[number][2])
-    main_Property.materialCreate(partName[number],20000,0.3)#property of rock
+    main_Property.materialCreate(partName[number],GraniteElastic[number],0.3)#property of rock
     main_Property.sectionCreate(partName[number],partName[number])
     main_Property.assignSection(partName[number],partName[number])
 
-main_Property.materialCreate('MainPart',5000,0.3)#property of mortar
+main_Property.materialCreate('MainPart',134000,0.3)#property of mortar
 main_Property.sectionCreate('MainPart','MainPart')
 main_Property.assignSection('MainPart','MainPart')
 
