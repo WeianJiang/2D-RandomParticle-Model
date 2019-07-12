@@ -18,8 +18,9 @@ for number in range(len(circleData)):
 main_PartGen.partRectGen('MainPart',circleData)
 GraniteElastic=np.loadtxt('GraniteElastic.txt')
 
+partNumbers=len(partName)
 
-for number in range(len(partName)):
+for number in range(partNumbers):
     main_PartGen.partCircleGen(partName[number],circleData[number][0],circleData[number][1],circleData[number][2])
     main_Property.materialCreate(partName[number],GraniteElastic[number],0.3)#property of rock
     main_Property.sectionCreate(partName[number],partName[number])
@@ -32,7 +33,7 @@ main_Property.assignSection('MainPart','MainPart')
 main_PartAssem.partInst('MainPart')
 map(main_PartAssem.partInst,partName)
 
-for number in range(len(partName)):
+for number in range(partNumbers):
     main_Interaction.creatingTie('MainPart',partName[number],circleData[number][0],circleData[number][1],circleData[number][2],number)
 
 
@@ -43,4 +44,6 @@ main_Load.setLoad('MainPart',1000,1)
 main_Load.setBoundary('MainPart',1)
 
 main_Mesh.Mesh('MainPart',14)
-map(main_Mesh.Mesh,partName,14)
+
+for number in range(partNumbers):
+    main_Mesh.Mesh(partName[number],14)
