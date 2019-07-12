@@ -46,4 +46,4 @@ main_Load.setBoundary('MainPart',1)
 main_Mesh.Mesh('MainPart',14)
 
 for number in range(partNumbers):
-    main_Mesh.Mesh(partName[number],14)
+    main_Mesh.Mesh(partName[number],2)
