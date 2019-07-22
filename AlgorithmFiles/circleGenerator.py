@@ -1,5 +1,5 @@
 import numpy as np
-import materialGenerator
+
 
 size=150
 
@@ -90,6 +90,7 @@ if __name__ == "__main__":
     circleData=np.loadtxt('Circle.txt')
     # with open('file.txt','w') as f:
     #     f.write(str(circleData))
+    import materialGenerator
     materialGenerator.ElasticGenerator('Granite',480000)
     #print overlapCounting(circleData)
     #print areaRatio(circleData)

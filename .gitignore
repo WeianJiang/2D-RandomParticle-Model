@@ -132,3 +132,5 @@ dmypy.json
 *.prt
 *.odb
 *.3
+*.txt
+.DS_Store
