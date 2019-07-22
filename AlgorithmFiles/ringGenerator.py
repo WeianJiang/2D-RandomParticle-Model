@@ -25,9 +25,7 @@ if __name__ == "__main__":
     outerCircleData=np.loadtxt('Circle.txt')
     innerCircleData=np.loadtxt('innerCircleData.txt')
     for i in range(len(outerCircleData)):  # draw module
-        # "*" used for transfer three parameters in one
         circleGenerator.drawCircle(outerCircleData[i][0],outerCircleData[i][1],outerCircleData[i][2])
         circleGenerator.drawCircle(innerCircleData[i][0],innerCircleData[i][1],innerCircleData[i][2])
     plt.show()
 
-# plt.savefig("D:/tcount
