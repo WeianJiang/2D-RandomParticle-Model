@@ -134,3 +134,7 @@ dmypy.json
 *.3
 *.txt
 .DS_Store
+*.4
+*.5
+*.6
+*.txt
