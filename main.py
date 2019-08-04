@@ -11,11 +11,13 @@ import numpy as np
 
 
 circleData = np.loadtxt('Circle.txt')
+ringData=np.loadtxt('ringData.txt')
+innerCircleData=np.loadtxt('innerCircleData.txt')
 partName=[]
 for number in range(len(circleData)):
     partName.append('Part-'+str(number))
-
-main_PartGen.partRectGen('MainPart',circleData)
+#part generating----------------------------------------
+main_PartGen.partRectGen('MainPart',innerCircleData)
 GraniteElastic=np.loadtxt('GraniteElastic.txt')
 
 partNumbers=len(partName)
