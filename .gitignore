@@ -142,3 +142,6 @@ dmypy.json
 *.txt
 *.txt
 GraniteElastic.txt
+*.mdl
+*.cid
+*.lck

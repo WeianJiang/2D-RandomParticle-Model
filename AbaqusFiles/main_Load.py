@@ -8,7 +8,7 @@ def setLoad(InstanceName,load,order):
     s1 = a.instances[InstanceName].edges
     side1Edges1 = s1.findAt(((75, 150, 0.0), ))
     region = a.Surface(side1Edges=side1Edges1, name='Surf-'+str(order))
-    mdb.models['Model-1'].Pressure(name='Load-'+str(order), createStepName='Step-1', 
+    mdb.models['Model-1'].Pressure(name='Load-'+str(order), createStepName='Step-'+str(order), 
         region=region, distributionType=UNIFORM, field='', magnitude=load, amplitude=UNSET)
 
 
