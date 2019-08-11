@@ -14,5 +14,7 @@ def ElasticGenerator(materialName,baseNumber):
     np.savetxt(str(materialName)+'Elastic.txt',ElasticData)
 
 
+
 if __name__=='__main__':
     ElasticGenerator('Granite',480000)
+    ElasticGenerator('interface',120000)

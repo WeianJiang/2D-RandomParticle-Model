@@ -24,11 +24,16 @@ main_PartGen.partRectGen('MainPart',circleData)#generating the retangle
 GraniteElastic=np.loadtxt('GraniteElastic.txt')
 
 
-for number in range(partNumbers):
-    main_PartGen.partCircleGen(CoarseAggregate[number],circleData[number][0],circleData[number][1],circleData[number][2])
+for number in range(partNumbers):#here, all components are generated and material created, section assigned.
+    main_PartGen.partCircleGen(CoarseAggregate[number],innerCircleData[number][0],innerCircleData[number][1],innerCircleData[number][2])
+    main_PartGen.interfaceGen(interface[number],interfaceData[number][0],interfaceData[number][1],
+        interfaceData[number][2],interfaceData[number][3])
     main_Property.materialCreate(CoarseAggregate[number],GraniteElastic[number],0.3)#property of rock
+    main_Property.materialCreate(interface[number],GraniteElastic[number],0.3)#!!!!!!!should be modified later
     main_Property.sectionCreate(CoarseAggregate[number],CoarseAggregate[number])
+    main_Property.sectionCreate(interface[number],interface[number])
     main_Property.assignSection(CoarseAggregate[number],CoarseAggregate[number])
+    main_Property.assignSection(interface[number],interface[number])
 
 main_Property.materialCreate('MainPart',134000,0.3)#property of mortar
 main_Property.sectionCreate('MainPart','MainPart')
@@ -36,18 +41,23 @@ main_Property.assignSection('MainPart','MainPart')
 
 main_PartAssem.partInst('MainPart')
 map(main_PartAssem.partInst,CoarseAggregate)
+map(main_PartAssem.partInst,interface)
 
 for number in range(partNumbers):
-    main_Interaction.creatingTie('MainPart',CoarseAggregate[number],circleData[number][0],circleData[number][1],circleData[number][2],number)
+    main_Interaction.creatingTie(interface[number],CoarseAggregate[number],innerCircleData[number][0],
+        innerCircleData[number][1],innerCircleData[number][2],number)
+    main_Interaction.creatingTie('MainPart',interface[number],interfaceData[number][0],
+        interfaceData[number][1],interfaceData[number][2],number)
 
 
-#-----------------------------step
+#-----------------------------step-----------------------------------------------------------------------------
 mdb.models['Model-1'].StaticStep(name='Step-1', previous='Initial')
 
 main_Load.setLoad('MainPart',1000,1)
 main_Load.setBoundary('MainPart',1)
 
-main_Mesh.Mesh('MainPart',14)
+main_Mesh.Mesh('MainPart',2)
 
 for number in range(partNumbers):
     main_Mesh.Mesh(CoarseAggregate[number],2)
+    main_Mesh.Mesh(interface[number],0.5)

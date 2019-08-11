@@ -12,8 +12,8 @@ def innerCircleGenerator():
         innerCircleData.append((outerCircleData[i][0],outerCircleData[i][1],outerCircleData[i][2]-outerCircleData[i][2]/20,outerCircleData[i][3]))
         ringData.append((outerCircleData[i][0],outerCircleData[i][1],
             outerCircleData[i][2],outerCircleData[i][2]-outerCircleData[i][2]/20,outerCircleData[i][3]))
-    np.savetxt('innerCircleData.txt',innerCircleData)
-    np.savetxt('ringData.txt',ringData)
+    np.savetxt('innerCircleData.txt',innerCircleData)#[x,y,radius,sequence number]
+    np.savetxt('ringData.txt',ringData)#[x,y,outter radius, inner raidus,sequence]
 
 
 if __name__ == "__main__":
