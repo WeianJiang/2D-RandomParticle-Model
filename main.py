@@ -10,7 +10,7 @@ import numpy as np
 
 
 
-
+#------------------------------------------------------------------------------------importing data
 circleData = np.loadtxt('Circle.txt')
 interfaceData=np.loadtxt('ringData.txt')#load the interface data
 innerCircleData=np.loadtxt('innerCircleData.txt')
@@ -20,12 +20,12 @@ partNumbers=len(circleData)
 for number in range(partNumbers):
     CoarseAggregate.append('CoarseAggregate-'+str(number))
     interface.append('interface-'+str(number))
-#part generating----------------------------------------
+#---------------------------------------------------------------------------------------part------------------------
 main_PartGen.partRectGen('MainPart',circleData)#generating the retangle
 
 GraniteElastic=np.loadtxt('GraniteElastic.txt')
 interfaceElastic=np.loadtxt('interfaceElastic.txt')
-
+#--------------------------------------------------------------------------------------material
 for number in range(partNumbers):#here, all components are generated and material created, section assigned.
     main_PartGen.partCircleGen(CoarseAggregate[number],innerCircleData[number][0],innerCircleData[number][1],innerCircleData[number][2])
     main_PartGen.interfaceGen(interface[number],interfaceData[number][0],interfaceData[number][1],
@@ -41,10 +41,12 @@ main_Property.materialCreate('MainPart',134000,0.3)#property of mortar
 main_Property.sectionCreate('MainPart','MainPart')
 main_Property.assignSection('MainPart','MainPart')
 
+#----------------------------------------------------------------------------------------assembly
 main_PartAssem.partInst('MainPart')
 map(main_PartAssem.partInst,CoarseAggregate)
 map(main_PartAssem.partInst,interface)
 
+#----------------------------------------------------------------------------------------interaction
 for number in range(partNumbers):
     main_Interaction.creatingTie(interface[number],CoarseAggregate[number],innerCircleData[number][0],
         innerCircleData[number][1],innerCircleData[number][2],number)
@@ -52,12 +54,13 @@ for number in range(partNumbers):
         interfaceData[number][1],interfaceData[number][2],number)
 
 
-#-----------------------------step-----------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------step--------------------
 main_Step.createStep('Step-1','Initial')
 
+#---------------------------------------------------------------------------------------------Load
 main_Load.setLoad('MainPart',1000,1)
 main_Load.setBoundary('MainPart',1)
-
+#---------------------------------------------------------------------------------------------mesh
 main_Mesh.Mesh('MainPart',2)
 
 for number in range(partNumbers):
