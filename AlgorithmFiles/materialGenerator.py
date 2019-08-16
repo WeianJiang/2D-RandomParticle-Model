@@ -16,5 +16,5 @@ def ElasticGenerator(materialName,baseNumber):
 
 
 if __name__=='__main__':
-    ElasticGenerator('Granite',480000)
-    ElasticGenerator('interface',120000)
+    ElasticGenerator('Granite',600000)
+    ElasticGenerator('interface',440000)

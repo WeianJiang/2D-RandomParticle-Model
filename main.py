@@ -37,7 +37,7 @@ for number in range(partNumbers):#here, all components are generated and materia
     main_Property.assignSection(CoarseAggregate[number],CoarseAggregate[number])
     main_Property.assignSection(interface[number],interface[number])
 
-main_Property.materialCreate('MainPart',134000,0.3)#property of mortar
+main_Property.materialCreate('MainPart',490000,0.3)#property of mortar
 main_Property.sectionCreate('MainPart','MainPart')
 main_Property.assignSection('MainPart','MainPart')
 
@@ -55,11 +55,17 @@ for number in range(partNumbers):
 
 
 #---------------------------------------------------------------------------------------------step--------------------
+stepNum=50
+
 main_Step.createStep('Step-1','Initial')
+for i in range(stepNum):
+    main_Step.createStep('Step-'+str(i+2),'Step-'+str(i+1))
 
 #---------------------------------------------------------------------------------------------Load
-main_Load.setLoad('MainPart',1000,1)
-main_Load.setBoundary('MainPart',1)
+main_Load.setBoundary('MainPart',1)#set the boundary
+for i in range(stepNum):
+    main_Load.setLoad('MainPart',1000/stepNum,i+1)
+
 #---------------------------------------------------------------------------------------------mesh
 main_Mesh.Mesh('MainPart',2)
 
