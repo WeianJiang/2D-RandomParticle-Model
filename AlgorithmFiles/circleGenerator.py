@@ -82,8 +82,8 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(6, 6), dpi=100)
     plt.axis([0, size, 0, size])
     #print dataGen()
-    circleData=circleGenerator(200,5,8)
-    circleData=circleGenerator(2000,3,5,circleData)
+    circleData=circleGenerator(2000,8,10)
+    #circleData=circleGenerator(2000,3,5,circleData)
     circleData=np.array(circleData)
     np.savetxt('Circle.txt',circleData)
 
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     # with open('file.txt','w') as f:
     #     f.write(str(circleData))
     import materialGenerator
-    materialGenerator.ElasticGenerator('Granite',480000)
+    #materialGenerator.ElasticGenerator('Granite',60)
     #print overlapCounting(circleData)
     #print areaRatio(circleData)
     for i in range(len(circleData)):  # draw module
