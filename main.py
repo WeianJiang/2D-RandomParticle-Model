@@ -65,7 +65,7 @@ if stepNum>1:
 #---------------------------------------------------------------------------------------------Load
 main_Load.setBoundary('MainPart',1)#set the boundary
 for i in range(stepNum):
-    main_Load.setLoad('MainPart',20000/stepNum,i+1)
+    main_Load.setLoad('MainPart',6000/stepNum,i+1)
 
 #---------------------------------------------------------------------------------------------mesh
 main_Mesh.Mesh('MainPart',2)
