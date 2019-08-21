@@ -9,9 +9,9 @@ def innerCircleGenerator():
     circleNumbers=len(outerCircleData)
     
     for i in range(circleNumbers):
-        innerCircleData.append((outerCircleData[i][0],outerCircleData[i][1],outerCircleData[i][2]-outerCircleData[i][2]/20,outerCircleData[i][3]))
+        innerCircleData.append((outerCircleData[i][0],outerCircleData[i][1],outerCircleData[i][2]*10/11,outerCircleData[i][3]))
         ringData.append((outerCircleData[i][0],outerCircleData[i][1],
-            outerCircleData[i][2],outerCircleData[i][2]-outerCircleData[i][2]/20,outerCircleData[i][3]))
+            outerCircleData[i][2],outerCircleData[i][2]*10/11,outerCircleData[i][3]))
     np.savetxt('innerCircleData.txt',innerCircleData)#[x,y,radius,sequence number]
     np.savetxt('ringData.txt',ringData)#[x,y,outter radius, inner raidus,sequence]
 

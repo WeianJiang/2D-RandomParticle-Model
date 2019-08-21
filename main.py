@@ -37,7 +37,8 @@ for number in range(partNumbers):#here, all components are generated and materia
     main_Property.assignSection(CoarseAggregate[number],CoarseAggregate[number])
     main_Property.assignSection(interface[number],interface[number])
 
-main_Property.materialCreate('MainPart',49000,0.3)#property of mortar
+main_Property.materialCreate('MainPart',23000,0.2)#property of mortar
+main_Property.DPassign('MainPart')
 main_Property.sectionCreate('MainPart','MainPart')
 main_Property.assignSection('MainPart','MainPart')
 
@@ -55,7 +56,7 @@ for number in range(partNumbers):
 
 
 #---------------------------------------------------------------------------------------------step--------------------
-stepNum=1
+stepNum=10
 
 main_Step.createStep('Step-1','Initial')
 if stepNum>1:
@@ -64,12 +65,32 @@ if stepNum>1:
 
 #---------------------------------------------------------------------------------------------Load
 main_Load.setBoundary('MainPart',1)#set the boundary
+index=main_Load.setReferPoint()
+
+# dsp=0
 for i in range(stepNum):
-    main_Load.setLoad('MainPart',6000/stepNum,i+1)
+#     main_Load.setLoad('MainPart',6000/stepNum,i+1)
+    main_Load.setReferConLoad(-10000/stepNum,i+1,index)
+    # dsp=-0.5/stepNum+dsp
+    # main_Load.setDspLoad('MainPart',dsp,i+1)
+
+
+
 
 #---------------------------------------------------------------------------------------------mesh
 main_Mesh.Mesh('MainPart',2)
 
 for number in range(partNumbers):
     main_Mesh.Mesh(CoarseAggregate[number],2)
+    #main_Mesh.Mesh(interface[number],interfaceData[number][3]/10/2)
     main_Mesh.Mesh(interface[number],0.5)
+
+
+#----------------------------------------------------------------------Job
+# mdb.Job(name='Job-1', model='Model-1', description='', type=ANALYSIS, 
+#     atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, 
+#     memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, 
+#     explicitPrecision=SINGLE, nodalOutputPrecision=SINGLE, echoPrint=OFF, 
+#     modelPrint=OFF, contactPrint=OFF, historyPrint=OFF, userSubroutine='', 
+#     scratch='', multiprocessingMode=DEFAULT, numCpus=1, numGPUs=0)
+# mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
