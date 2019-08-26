@@ -83,7 +83,7 @@ if __name__ == "__main__":
     plt.axis([0, size, 0, size])
     #print dataGen()
     circleData=circleGenerator(200,8,10)
-    #circleData=circleGenerator(2000,3,8,circleData)
+    circleData=circleGenerator(2000,3,8,circleData)
     circleData=np.array(circleData)
     np.savetxt('Circle.txt',circleData)
 
