@@ -32,7 +32,6 @@ for number in range(partNumbers):#here, all components are generated and materia
         interfaceData[number][2],interfaceData[number][3])
     main_Property.materialCreate(CoarseAggregate[number],GraniteElastic[number],0.3)#property of rock
     main_Property.materialCreate(interface[number],interfaceElastic[number],0.3)
-    main_Property.DPassign(interface[number])
     main_Property.sectionCreate(CoarseAggregate[number],CoarseAggregate[number])
     main_Property.sectionCreate(interface[number],interface[number])
     main_Property.assignSection(CoarseAggregate[number],CoarseAggregate[number])
