@@ -32,6 +32,7 @@ for number in range(partNumbers):#here, all components are generated and materia
         interfaceData[number][2],interfaceData[number][3])
     main_Property.materialCreate(CoarseAggregate[number],GraniteElastic[number],0.3)#property of rock
     main_Property.materialCreate(interface[number],interfaceElastic[number],0.3)
+    main_Property.DPassign(interface[number])
     main_Property.sectionCreate(CoarseAggregate[number],CoarseAggregate[number])
     main_Property.sectionCreate(interface[number],interface[number])
     main_Property.assignSection(CoarseAggregate[number],CoarseAggregate[number])
@@ -62,6 +63,8 @@ main_Step.createStep('Step-1','Initial')
 if stepNum>1:
     for i in range(stepNum):
         main_Step.createStep('Step-'+str(i+2),'Step-'+str(i+1))
+
+
 
 #---------------------------------------------------------------------------------------------Load
 main_Load.setBoundary('MainPart',1)#set the boundary
