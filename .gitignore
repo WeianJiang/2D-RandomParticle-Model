@@ -136,3 +136,4 @@ dmypy.json
 *.sta
 *.prt
 *.txt
+*.exe
