@@ -2,10 +2,9 @@ from abaqus import *
 from abaqusConstants import *
 
 
-def materialCreate(materialName,elaticModules,possionRatio,density):
+def materialCreate(materialName,elaticModules,possionRatio):
     mdb.models['Model-1'].Material(name=materialName)
     mdb.models['Model-1'].materials[materialName].Elastic(table=((float(elaticModules), float(possionRatio)), ))
-    mdb.models['Model-1'].materials[materialName].Density(table=((density, ), ))
 
 
 def sectionCreate(sectionName,materialName):
