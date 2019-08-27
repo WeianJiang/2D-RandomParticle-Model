@@ -56,7 +56,7 @@ for number in range(partNumbers):
 
 
 #---------------------------------------------------------------------------------------------step--------------------
-stepNum=10
+stepNum=1
 
 main_Step.createStep('Step-1','Initial')
 if stepNum>1:
