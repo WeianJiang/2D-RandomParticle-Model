@@ -90,8 +90,8 @@ for i in range(stepNum):
 
 #---------------------------------------------------------------------------------------------mesh
 main_Mesh.Mesh('MainPart',2)
-main_Mesh.Mesh('UpperPlate',0.1)
-main_Mesh.Mesh('LowerPlate',0.1)
+main_Mesh.Mesh('UpperPlate',1)
+main_Mesh.Mesh('LowerPlate',1)
 
 for number in range(partNumbers):
     main_Mesh.Mesh(CoarseAggregate[number],2)
