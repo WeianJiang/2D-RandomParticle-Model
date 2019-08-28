@@ -70,12 +70,12 @@ if stepNum>1:
 main_Load.setBoundary('MainPart',1)#set the boundary
 index=main_Load.setReferPoint()
 
-dsp=0
+# dsp=0
 for i in range(stepNum):
 #     main_Load.setLoad('MainPart',6000/stepNum,i+1)
-    # main_Load.setReferConLoad(-6500/stepNum,i+1,index)
-    dsp=-0.01/stepNum+dsp
-    main_Load.setDspLoad('MainPart',dsp,i+1)
+    main_Load.setReferConLoad(-6500/stepNum,i+1,index)
+    # dsp=-0.01/stepNum+dsp
+    # main_Load.setDspLoad('MainPart',dsp,i+1)
 
 
 
