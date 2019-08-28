@@ -56,7 +56,7 @@ for number in range(partNumbers):
 
 
 #---------------------------------------------------------------------------------------------step--------------------
-stepNum=10
+stepNum=1
 
 main_Step.createStep('Step-1','Initial')
 if stepNum>1:
@@ -69,12 +69,12 @@ if stepNum>1:
 main_Load.setBoundary('MainPart',1)#set the boundary
 index=main_Load.setReferPoint()
 
-# dsp=0
+dsp=0
 for i in range(stepNum):
 #     main_Load.setLoad('MainPart',6000/stepNum,i+1)
-    main_Load.setReferConLoad(-6500/stepNum,i+1,index)
-    # dsp=-0.5/stepNum+dsp
-    # main_Load.setDspLoad('MainPart',dsp,i+1)
+    # main_Load.setReferConLoad(-6500/stepNum,i+1,index)
+    dsp=-0.01/stepNum+dsp
+    main_Load.setDspLoad('MainPart',dsp,i+1)
 
 
 
