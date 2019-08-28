@@ -63,3 +63,4 @@ def setDspLoad(partName,dsp,order):
         mdb.models['Model-1'].DisplacementBC(name='BC-Load-'+str(order), createStepName='Step-'+str(order), 
         region=region, u1=UNSET, u2=dsp, ur3=UNSET, amplitude=UNSET, fixed=OFF, 
         distributionType=UNIFORM, fieldName='', localCsys=None)
+        mdb.models['Model-1'].boundaryConditions['BC-Load-'+str(order)].deactivate('Step-'+str(order+1))
