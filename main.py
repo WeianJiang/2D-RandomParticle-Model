@@ -43,11 +43,18 @@ main_Property.DPassign('MainPart')
 main_Property.sectionCreate('MainPart','MainPart')
 main_Property.assignSection('MainPart','MainPart')
 
+main_PartGen.createSplitPlate()
+main_Property.materialCreate('Plate',9e10,0)
+main_Property.sectionCreate('Plate','Plate')
+main_Property.assignSection('UpperPlate','Plate')
+main_Property.assignSection('LowerPlate','Plate')
 #----------------------------------------------------------------------------------------assembly
 main_PartAssem.partInst('MainPart')
 map(main_PartAssem.partInst,CoarseAggregate)
 map(main_PartAssem.partInst,interface)
 
+main_PartAssem.partInst('UpperPlate')
+main_PartAssem.partInst('LowerPlate')
 #----------------------------------------------------------------------------------------interaction
 for number in range(partNumbers):
     main_Interaction.creatingTie(interface[number],CoarseAggregate[number],innerCircleData[number][0],
@@ -55,7 +62,8 @@ for number in range(partNumbers):
     main_Interaction.creatingTie('MainPart',interface[number],interfaceData[number][0],
         interfaceData[number][1],interfaceData[number][2],number)
 
-
+main_Interaction.creatingTie('MainPart','UpperPlate',75,150,0,partNumbers+10)
+main_Interaction.creatingTie('MainPart','LowerPlate',75,0,0,partNumbers+11)
 #---------------------------------------------------------------------------------------------step--------------------
 stepNum=10
 
@@ -67,21 +75,23 @@ if stepNum>1:
 
 
 #---------------------------------------------------------------------------------------------Load
-main_Load.setBoundary('MainPart',1)#set the boundary
-index=main_Load.setReferPoint()
+main_Load.setBoundary('LowerPlate',1)#set the boundary
+# index=main_Load.setReferPoint()
 
 dsp=0
 for i in range(stepNum):
 #     main_Load.setLoad('MainPart',6000/stepNum,i+1)
     # main_Load.setReferConLoad(-6500/stepNum,i+1,index)
     dsp=-0.01/stepNum+dsp
-    main_Load.setDspLoad('MainPart',dsp,i+1)
+    main_Load.setDspLoad('UpperPlate',dsp,i+1)
 
 
 
 
 #---------------------------------------------------------------------------------------------mesh
 main_Mesh.Mesh('MainPart',2)
+main_Mesh.Mesh('UpperPlate',0.1)
+main_Mesh.Mesh('LowerPlate',0.1)
 
 for number in range(partNumbers):
     main_Mesh.Mesh(CoarseAggregate[number],2)
