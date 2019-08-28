@@ -1,6 +1,6 @@
 from abaqus import *
 from abaqusConstants import *
-
+import interaction
 
 def creatingTie(MasterinstanceName,SlaveinstanceName,target_x,target_y,radi,order):
     a = mdb.models['Model-1'].rootAssembly
