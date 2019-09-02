@@ -39,7 +39,7 @@ for number in range(partNumbers):#here, all components are generated and materia
     main_Property.assignSection(interface[number],interface[number])
 
 main_Property.materialCreate('MainPart',23000,0.2)#property of mortar
-main_Property.DPassign('MainPart')
+main_Property.PLassign('MainPart')
 main_Property.sectionCreate('MainPart','MainPart')
 main_Property.assignSection('MainPart','MainPart')
 
@@ -70,7 +70,7 @@ if stepNum>1:
 main_Load.setBoundary('MainPart',1)#set the boundary
 index=main_Load.setReferPoint()
 
-dsp=-0.2
+dsp=-0.14
 for i in range(stepNum):
 #     main_Load.setLoad('MainPart',6000/stepNum,i+1)
     # main_Load.setReferConLoad(-6500/stepNum,i+1,index)
