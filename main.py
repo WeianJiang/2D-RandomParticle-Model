@@ -38,7 +38,7 @@ for number in range(partNumbers):#here, all components are generated and materia
     main_Property.assignSection(interface[number],interface[number])
 
 main_Property.materialCreate('MainPart',23000,0.2,2e-09)#property of mortar
-main_Property.DPassign('MainPart')
+main_Property.PLassign('MainPart')
 main_Property.sectionCreate('MainPart','MainPart')
 main_Property.assignSection('MainPart','MainPart')
 

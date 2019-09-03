@@ -21,8 +21,13 @@ def assignSection(partName,sectionName):
         offsetType=MIDDLE_SURFACE, offsetField='', 
         thicknessAssignment=FROM_SECTION)
 
-def DPassign(materialName):
-        mdb.models['Model-1'].materials[materialName].DruckerPrager(table=((64.0, 0.0, 64.0), ))
-        mdb.models['Model-1'].materials[materialName].druckerPrager.DruckerPragerHardening(
-    table=((29.0, 0.0), (30.0, 0.002), (20.0, 0.003), (10.0, 0.004), (5.0, 
-    0.006)))
+def PLassign(materialName):
+        import numpy as np
+        Compress=np.loadtxt('Compression.txt')
+        Tensile=np.loadtxt('Tension.txt')
+        mdb.models['Model-1'].materials[materialName].ConcreteDamagedPlasticity(table=((
+        38.0, 0.1, 1.16, 0.667, 0.0), ))
+        mdb.models['Model-1'].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
+        table=(Compress))
+        mdb.models['Model-1'].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
+        table=(Tensile))
