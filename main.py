@@ -62,7 +62,8 @@ stepNum=10
 main_Step.createStep('Step-1','Initial')
 if stepNum>1:
     for i in range(stepNum):
-        main_Step.createStep('Step-'+str(i+2),'Step-'+str(i+1))
+        if i+2<=stepNum:
+            main_Step.createStep('Step-'+str(i+2),'Step-'+str(i+1))
 
 
 
@@ -76,7 +77,8 @@ for i in range(stepNum):
     # main_Load.setReferConLoad(-6500/stepNum,i+1,index)
     dsp=-0.1/stepNum+dsp
     #main_Load.setDspLoad('MainPart',dsp,i+1)
-    main_Load.setReferDspLoad('MainPart',dsp,i+1,index)
+    if i+2<=stepNum:
+        main_Load.setReferDspLoad('MainPart',dsp,i+1,index)
 
 
 
