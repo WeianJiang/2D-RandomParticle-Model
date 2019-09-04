@@ -31,14 +31,14 @@ for number in range(partNumbers):#here, all components are generated and materia
     main_PartGen.partCircleGen(CoarseAggregate[number],innerCircleData[number][0],innerCircleData[number][1],innerCircleData[number][2])
     main_PartGen.interfaceGen(interface[number],interfaceData[number][0],interfaceData[number][1],
         interfaceData[number][2],interfaceData[number][3])
-    main_Property.materialCreate(CoarseAggregate[number],GraniteElastic[number],0.3)#property of rock
-    main_Property.materialCreate(interface[number],interfaceElastic[number],0.3)
+    main_Property.materialCreate(CoarseAggregate[number],GraniteElastic[number],0.3,2.7e-09)#property of rock
+    main_Property.materialCreate(interface[number],interfaceElastic[number],0.3,2e-09)
     main_Property.sectionCreate(CoarseAggregate[number],CoarseAggregate[number])
     main_Property.sectionCreate(interface[number],interface[number])
     main_Property.assignSection(CoarseAggregate[number],CoarseAggregate[number])
     main_Property.assignSection(interface[number],interface[number])
 
-main_Property.materialCreate('MainPart',23000,0.2)#property of mortar
+main_Property.materialCreate('MainPart',23000,0.2,2e-09)#property of mortar
 main_Property.PLassign('MainPart')
 main_Property.sectionCreate('MainPart','MainPart')
 main_Property.assignSection('MainPart','MainPart')
@@ -88,7 +88,7 @@ main_Mesh.Mesh('MainPart',2)
 for number in range(partNumbers):
     main_Mesh.Mesh(CoarseAggregate[number],2)
     #main_Mesh.Mesh(interface[number],interfaceData[number][3]/10/2)
-    main_Mesh.Mesh(interface[number],0.5)
+    main_Mesh.Mesh(interface[number],2)
 
 
 #----------------------------------------------------------------------Job
