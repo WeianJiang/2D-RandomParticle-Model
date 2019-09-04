@@ -57,7 +57,7 @@ for number in range(partNumbers):
 
 
 #---------------------------------------------------------------------------------------------step--------------------
-stepNum=10
+stepNum=1
 
 main_Step.createStep('Step-1','Initial')
 if stepNum>1:
@@ -77,8 +77,7 @@ for i in range(stepNum):
     # main_Load.setReferConLoad(-6500/stepNum,i+1,index)
     dsp=-0.1/stepNum+dsp
     #main_Load.setDspLoad('MainPart',dsp,i+1)
-    if i+2<=stepNum:
-        main_Load.setReferDspLoad('MainPart',dsp,i+1,index)
+    main_Load.setReferDspLoad('MainPart',dsp,i+1,index)
 
 
 
@@ -93,4 +92,4 @@ for number in range(partNumbers):
 
 
 #----------------------------------------------------------------------Job
-main_Job.creatJob('Job-dsp',1)
+#main_Job.creatJob('Job-dsp',1)

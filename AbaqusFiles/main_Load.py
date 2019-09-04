@@ -86,4 +86,7 @@ def setReferDspLoad(partName,dsp,order,id):
         mdb.models['Model-1'].DisplacementBC(name='BC-Load-'+str(order), createStepName='Step-'+str(order), 
         region=region, u1=UNSET, u2=dsp, ur3=UNSET, amplitude=UNSET, fixed=OFF, 
         distributionType=UNIFORM, fieldName='', localCsys=None)
-        mdb.models['Model-1'].boundaryConditions['BC-Load-'+str(order)].deactivate('Step-'+str(order+1))
+        try:
+                mdb.models['Model-1'].boundaryConditions['BC-Load-'+str(order)].deactivate('Step-'+str(order+1))
+        except:
+                pass
