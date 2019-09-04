@@ -32,3 +32,5 @@ def PLassign(materialName):
         table=(Compress))
         mdb.models['Model-1'].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
         table=(Tensile))
+        mdb.models['Model-1'].materials[materialName].Damping(alpha=4.15, 
+        beta=4.83e-08)
