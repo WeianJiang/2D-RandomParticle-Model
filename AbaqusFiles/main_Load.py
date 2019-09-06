@@ -80,9 +80,9 @@ def setReferDspLoad(partName,dsp,order,id):
         localCsys=None, u1=ON, u2=ON, ur3=ON)
 
         a = mdb.models['Model-1'].rootAssembly
-        e1 = a.instances[partName].edges
-        edges1 = e1.findAt(((37.5, 150.0, 0.0), ))
-        region = a.Set(edges=edges1, name='Set-BC-Load-'+str(order))
+        r1 = a.referencePoints
+        refPoints1=(r1[id], )
+        region = a.Set(referencePoints=refPoints1, name='Set-Load'+str(order))
         mdb.models['Model-1'].DisplacementBC(name='BC-Load-'+str(order), createStepName='Step-'+str(order), 
         region=region, u1=UNSET, u2=dsp, ur3=UNSET, amplitude=UNSET, fixed=OFF, 
         distributionType=UNIFORM, fieldName='', localCsys=None)
