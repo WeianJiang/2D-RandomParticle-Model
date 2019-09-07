@@ -83,10 +83,14 @@ def setReferDspLoad(partName,dsp,order,id):
         r1 = a.referencePoints
         refPoints1=(r1[id], )
         region = a.Set(referencePoints=refPoints1, name='Set-Load'+str(order))
+        mdb.models['Model-1'].TabularAmplitude(name='Amp-1', timeSpan=STEP, smooth=SOLVER_DEFAULT, data=((0.0, 0.0), (1.0, 1.0)))
         mdb.models['Model-1'].DisplacementBC(name='BC-Load-'+str(order), createStepName='Step-'+str(order), 
-        region=region, u1=UNSET, u2=dsp, ur3=UNSET, amplitude=UNSET, fixed=OFF, 
+        region=region, u1=UNSET, u2=dsp, ur3=UNSET, amplitude='Amp-1', fixed=OFF, 
         distributionType=UNIFORM, fieldName='', localCsys=None)
         try:
                 mdb.models['Model-1'].boundaryConditions['BC-Load-'+str(order)].deactivate('Step-'+str(order+1))
         except:
                 pass
+
+
+

@@ -26,11 +26,14 @@ def PLassign(materialName):
         import numpy as np
         Compress=np.loadtxt('Compression.txt')
         Tensile=np.loadtxt('Tension.txt')
+        TensionDamage=np.loadtxt('TensionDamage.txt')
         mdb.models['Model-1'].materials[materialName].ConcreteDamagedPlasticity(table=((
         38.0, 0.1, 1.16, 0.667, 0.0), ))
         mdb.models['Model-1'].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
         table=(Compress))
         mdb.models['Model-1'].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
-        table=(Tensile))
+        table=(Tensile),type=DISPLACEMENT)
+        mdb.models['Model-1'].materials['MainPart'].concreteDamagedPlasticity.ConcreteTensionDamage(
+        table=TensionDamage, type=DISPLACEMENT)
         mdb.models['Model-1'].materials[materialName].Damping(alpha=4.15, 
         beta=4.83e-08)

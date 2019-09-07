@@ -75,7 +75,7 @@ dsp=-0
 for i in range(stepNum):
 #     main_Load.setLoad('MainPart',6000/stepNum,i+1)
     # main_Load.setReferConLoad(-6500/stepNum,i+1,index)
-    dsp=-0.1/stepNum+dsp
+    dsp=-0.2/stepNum+dsp
     #main_Load.setDspLoad('MainPart',dsp,i+1)
     main_Load.setReferDspLoad('MainPart',dsp,i+1,index)
 
