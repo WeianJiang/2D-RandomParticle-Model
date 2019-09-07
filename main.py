@@ -12,9 +12,9 @@ import numpy as np
 
 
 #------------------------------------------------------------------------------------importing data
-circleData = np.loadtxt('Circle.txt')
-interfaceData=np.loadtxt('ringData.txt')#load the interface data
-innerCircleData=np.loadtxt('innerCircleData.txt')
+circleData = np.loadtxt('ModelInfoFiles/1/Circle.txt')
+interfaceData=np.loadtxt('ModelInfoFiles/1/ringData.txt')#load the interface data
+innerCircleData=np.loadtxt('ModelInfoFiles/1/innerCircleData.txt')
 CoarseAggregate=[]
 interface=[]
 partNumbers=len(circleData)
@@ -24,8 +24,8 @@ for number in range(partNumbers):
 #---------------------------------------------------------------------------------------part------------------------
 main_PartGen.partRectGen('MainPart',circleData)#generating the retangle
 
-GraniteElastic=np.loadtxt('GraniteElastic.txt')
-interfaceElastic=np.loadtxt('interfaceElastic.txt')
+GraniteElastic=np.loadtxt('ModelInfoFiles/1/GraniteElastic.txt')
+interfaceElastic=np.loadtxt('ModelInfoFiles/1/interfaceElastic.txt')
 #--------------------------------------------------------------------------------------material
 for number in range(partNumbers):#here, all components are generated and material created, section assigned.
     main_PartGen.partCircleGen(CoarseAggregate[number],innerCircleData[number][0],innerCircleData[number][1],innerCircleData[number][2])

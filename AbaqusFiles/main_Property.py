@@ -24,9 +24,9 @@ def assignSection(partName,sectionName):
 
 def PLassign(materialName):
         import numpy as np
-        Compress=np.loadtxt('Compression.txt')
-        Tensile=np.loadtxt('Tension.txt')
-        TensionDamage=np.loadtxt('TensionDamage.txt')
+        Compress=np.loadtxt('Constitution/1/Compression.txt')
+        Tensile=np.loadtxt('Constitution/1/Tension.txt')
+        TensionDamage=np.loadtxt('Constitution/1/TensionDamage.txt')
         mdb.models['Model-1'].materials[materialName].ConcreteDamagedPlasticity(table=((
         38.0, 0.1, 1.16, 0.667, 0.0), ))
         mdb.models['Model-1'].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
