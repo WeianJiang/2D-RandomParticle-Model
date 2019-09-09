@@ -3,8 +3,8 @@ from abaqusConstants import *
 
 import job
 
-def createJob(name,cpus=1):
-    mdb.Job(name=name, model='Model-1', description='', type=ANALYSIS, 
+def createJob(modelName,name,cpus=1):
+    mdb.Job(name=name, model=modelName, description='', type=ANALYSIS, 
         atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, 
         memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, 
         explicitPrecision=SINGLE, nodalOutputPrecision=SINGLE, echoPrint=OFF, 

@@ -11,7 +11,7 @@
 from AlgorithmFiles import dspLoad
 
 Model=dspLoad.dspLoad()
-Model.setPath()
+Model.setPath(1)
 Model.setLoadDsp(-0.2)
 Model.setJobName('Job-Test')
 
