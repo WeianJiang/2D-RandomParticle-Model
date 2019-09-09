@@ -3,7 +3,7 @@ from abaqusConstants import *
 
 import job
 
-def creatJob(name,cpus=1):
+def createJob(name,cpus=1):
     mdb.Job(name=name, model='Model-1', description='', type=ANALYSIS, 
         atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, 
         memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, 
@@ -11,4 +11,6 @@ def creatJob(name,cpus=1):
         modelPrint=OFF, contactPrint=OFF, historyPrint=OFF, userSubroutine='', 
         scratch='', parallelizationMethodExplicit=DOMAIN, numDomains=cpus, 
         activateLoadBalancing=False, multiprocessingMode=DEFAULT, numCpus=cpus)
+
+def submitJob(name):
     mdb.jobs[name].submit(consistencyChecking=OFF)
