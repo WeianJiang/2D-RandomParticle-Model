@@ -1,6 +1,8 @@
 from abaqus import *
 from abaqusConstants import *
 
+def createModel(modelName):
+    mdb.Model(name=modelName, modelType=STANDARD_EXPLICIT)
 
 def partRectGen(modelName,partname, circleData=[]):
     s = mdb.models[modelName].ConstrainedSketch(name='__profile__', sheetSize=150.0)

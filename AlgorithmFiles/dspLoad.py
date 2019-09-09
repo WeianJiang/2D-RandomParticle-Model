@@ -31,6 +31,7 @@ class dspLoad():
         self.path=path
         self.__setImportFile()
         self.__setImportMaterial()
+        main_PartGen.createModel(self.Model)
 
     
     def __Material(self):
@@ -107,7 +108,7 @@ class dspLoad():
         self.__Step()
         self.__Load()
         self.__Mesh()
-        main_Job.createJob(self.Model,self.jobName)
+        main_Job.createJob(self.Model,self.jobName,6)
 
     
     def setJobName(self,jobName):

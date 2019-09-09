@@ -18,14 +18,14 @@ def setBoundary(modelName,InstanceName,order):
         edges1 = e1.findAt(((75,0, 0.0), ))
         region = a.Set(edges=edges1, name='Set-'+str(order))
         mdb.models[modelName].DisplacementBC(name='BC-'+str(order), createStepName='Initial', 
-        region=region, u1=SET, u2=SET, ur3=UNSET, amplitude=UNSET, 
+        region=region, u1=UNSET, u2=SET, ur3=UNSET, amplitude=UNSET, 
         distributionType=UNIFORM, fieldName='', localCsys=None)
 
-        edges2 = e1.findAt(((75,150, 0.0), ))
-        region2 = a.Set(edges=edges2, name='Set-'+str(order+1))
-        mdb.models[modelName].DisplacementBC(name='BC-'+str(order+1), createStepName='Initial', 
-                region=region2, u1=SET, u2=UNSET, ur3=UNSET, amplitude=UNSET, 
-                distributionType=UNIFORM, fieldName='', localCsys=None)
+        # edges2 = e1.findAt(((75,150, 0.0), ))
+        # region2 = a.Set(edges=edges2, name='Set-'+str(order+1))
+        # mdb.models[modelName].DisplacementBC(name='BC-'+str(order+1), createStepName='Initial', 
+        #         region=region2, u1=SET, u2=UNSET, ur3=UNSET, amplitude=UNSET, 
+        #         distributionType=UNIFORM, fieldName='', localCsys=None)
 
 def setReferConLoad(modelName,load,order,id):
         a = mdb.models[modelName].rootAssembly
