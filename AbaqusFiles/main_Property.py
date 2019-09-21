@@ -22,11 +22,11 @@ def assignSection(modelName,partName,sectionName):
         offsetType=MIDDLE_SURFACE, offsetField='', 
         thicknessAssignment=FROM_SECTION)
 
-def PLassign(modelName,materialName):
+def PLassign(modelName,materialName,ModelPathNumber):
         import numpy as np
-        Compress=np.loadtxt('Constitution/1/Compression.txt')
-        Tensile=np.loadtxt('Constitution/1/Tension.txt')
-        TensionDamage=np.loadtxt('Constitution/1/TensionDamage.txt')
+        Compress=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Compression.txt')
+        Tensile=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Tension.txt')
+        TensionDamage=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/TensionDamage.txt')
         mdb.models[modelName].materials[materialName].ConcreteDamagedPlasticity(table=((
         38.0, 0.1, 1.16, 0.667, 0.0), ))
         mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(

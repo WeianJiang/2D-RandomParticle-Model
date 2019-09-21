@@ -10,9 +10,9 @@ import numpy as np
 class dspLoad():
 
     def __setImportFile(self,CircleFileName='Circle.txt',InterFaceFileName='ringData.txt',innerCircleFileName='innerCircleData.txt'):
-        self.circleData = np.loadtxt(str(self.path)+CircleFileName)
-        self.interfaceData=np.loadtxt(str(self.path)+InterFaceFileName)#load the interface data
-        self.innerCircleData=np.loadtxt(str(self.path)+innerCircleFileName)
+        self.circleData = np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+CircleFileName)
+        self.interfaceData=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+InterFaceFileName)#load the interface data
+        self.innerCircleData=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+innerCircleFileName)
         self.CoarseAggregate=[]
         self.interface=[]
         self.partNumbers=len(self.circleData)
@@ -22,12 +22,11 @@ class dspLoad():
 
     
     def __setImportMaterial(self,GraniteElasticFileName='GraniteElastic.txt',InterfaceElasticFileName='interfaceElastic.txt'):
-        self.GraniteElastic=np.loadtxt(str(self.path)+GraniteElasticFileName)
-        self.interfaceElastic=np.loadtxt(str(self.path)+InterfaceElasticFileName)
+        self.GraniteElastic=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+GraniteElasticFileName)
+        self.interfaceElastic=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+InterfaceElasticFileName)
     
     def setPath(self,path=1):
         self.Model='Model-'+str(path)
-        path='ModelInfoFiles/'+str(path)+'/'
         self.path=path
         self.__setImportFile()
         self.__setImportMaterial()
@@ -49,7 +48,7 @@ class dspLoad():
 
             main_PartGen.partRectGen(self.Model,'MainPart',self.circleData)#generating the retangle
             main_Property.materialCreate(self.Model,'MainPart',23000,0.2,2e-09)#property of mortar
-            main_Property.PLassign(self.Model,'MainPart')
+            main_Property.PLassign(self.Model,'MainPart',self.path)
             main_Property.sectionCreate(self.Model,'MainPart','MainPart')
             main_Property.assignSection(self.Model,'MainPart','MainPart')
 
