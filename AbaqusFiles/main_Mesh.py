@@ -13,3 +13,21 @@ def Mesh(modelName,partname,seedSize):
     #---------------mesh
     p = mdb.models[modelName].parts[partname]
     p.generateMesh()
+
+
+def createMeshPart(modelName):
+    p = mdb.models[modelName].parts['MainPart']
+    p.PartFromMesh(name='MainPart-mesh-1', copySets=True)
+    p1 = mdb.models['Model-1'].parts['MainPart-mesh-1']
+    # del mdb.models[modelName].parts['MainPart']
+    # mdb.models[modelName].parts.changeKey(fromName='MainPart-mesh-1', 
+    # toName='MainPart')
+
+
+def getEleNum(modelName):
+    p = mdb.models[modelName].parts['MainPart-mesh-1']
+    e = p.elements
+    return len(e)
+
+if __name__=='__main__':
+    pass

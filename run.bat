@@ -1,0 +1,1 @@
+cmd /c "cd /d %~dp0 & abaqus cae script=main.py"

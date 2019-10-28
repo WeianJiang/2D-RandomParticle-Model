@@ -7,31 +7,9 @@ from AbaqusFiles import main_Mesh
 from AbaqusFiles import main_Step
 from AbaqusFiles import main_Job
 import numpy as np
-class dspLoad():
+from dspLoad import dspLoad
 
-    def __setImportFile(self,CircleFileName='Circle.txt',InterFaceFileName='ringData.txt',innerCircleFileName='innerCircleData.txt'):
-        self.circleData = np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+CircleFileName)
-        self.interfaceData=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+InterFaceFileName)#load the interface data
-        self.innerCircleData=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+innerCircleFileName)
-        self.CoarseAggregate=[]
-        self.interface=[]
-        self.partNumbers=len(self.circleData)
-        for number in range(self.partNumbers):
-            self.CoarseAggregate.append('CoarseAggregate-'+str(number))
-            self.interface.append('interface-'+str(number))
-
-    
-    def __setImportMaterial(self,GraniteElasticFileName='GraniteElastic.txt',InterfaceElasticFileName='interfaceElastic.txt'):
-        self.GraniteElastic=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+GraniteElasticFileName)
-        self.interfaceElastic=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+InterfaceElasticFileName)
-    
-    def setPath(self,path=1):
-        self.Model='Model-'+str(path)
-        self.path=path
-        self.__setImportFile()
-        self.__setImportMaterial()
-        main_PartGen.createModel(self.Model)
-
+class MeshPartModel(dspLoad):
     
     def __Material(self):
         for number in range(self.partNumbers):#here, all components are generated and material created, section assigned.
@@ -47,36 +25,19 @@ class dspLoad():
             main_Property.assignSection(self.Model,self.interface[number],self.interface[number])
 
             main_PartGen.partRectGen(self.Model,'MainPart',self.circleData)#generating the retangle
-            main_Property.materialCreate(self.Model,'MainPart',23000,0.2,2e-09)#property of mortar
-            main_Property.PLassign(self.Model,'MainPart',self.path)
-            main_Property.sectionCreate(self.Model,'MainPart','MainPart')
-            main_Property.assignSection(self.Model,'MainPart','MainPart')
-
     
-    def __Assembly(self):
-        main_PartAssem.partInst(self.Model,'MainPart')
-        for number in range(self.partNumbers):
-            main_PartAssem.partInst(self.Model,self.CoarseAggregate[number])
-            main_PartAssem.partInst(self.Model,self.interface[number])
+    def __MeshfromPart(self):
+        main_Mesh.createMeshPart(self.Model)
+        self.MeshPartEleNum=main_Mesh.getEleNum(self.Model)
+        print self.MeshPartEleNum
 
-    
+
     def __Interaction(self):
         for number in range(self.partNumbers):
             main_Interaction.creatingTie(self.Model,self.interface[number],self.CoarseAggregate[number],self.innerCircleData[number][0],
                 self.innerCircleData[number][1],self.innerCircleData[number][2],number)
             main_Interaction.creatingTie(self.Model,'MainPart',self.interface[number],self.interfaceData[number][0],
                 self.interfaceData[number][1],self.interfaceData[number][2],number)
-
-    
-    def __Step(self):
-
-        main_Step.createStep(self.Model,'Step-1','Initial')
-        # self.stepNum=1
-        # if self.stepNum>1:
-        #     for i in range(self.stepNum):
-        #         if i+2<=self.stepNum:
-        #             main_Step.createStep('Step-'+str(i+2),'Step-'+str(i+1))
-
 
     def __Load(self):
         main_Load.setBoundary(self.Model,'MainPart',1)#set the boundary
@@ -89,30 +50,13 @@ class dspLoad():
         #     #main_Load.setDspLoad('MainPart',dsp,i+1)
         main_Load.setReferDspLoad(self.Model,'MainPart',dsp,1,index)
 
-    def setLoadDsp(self,loadDsp):
-        self.loadDsp=loadDsp
-
-    def __Mesh(self):
-        main_Mesh.Mesh(self.Model,'MainPart',2)
-
-        for number in range(self.partNumbers):
-            main_Mesh.Mesh(self.Model,self.CoarseAggregate[number],2)
-            #main_Mesh.Mesh(interface[number],interfaceData[number][3]/10/2)
-            main_Mesh.Mesh(self.Model,self.interface[number],2)
-    
     def __Job(self):
         self.__Material()
+        self.__Mesh()
+        self.__MeshfromPart()
         self.__Assembly()
         self.__Interaction()
         self.__Step()
         self.__Load()
         self.__Mesh()
         main_Job.createJob(self.Model,self.jobName,6)
-
-    
-    def setJobName(self,jobName):
-        self.jobName=jobName
-        self.__Job()
-    
-
-
