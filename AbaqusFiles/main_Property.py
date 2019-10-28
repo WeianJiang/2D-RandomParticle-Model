@@ -37,3 +37,10 @@ def PLassign(modelName,materialName,ModelPathNumber):
         table=TensionDamage, type=DISPLACEMENT)
         mdb.models[modelName].materials[materialName].Damping(alpha=4.15, 
         beta=4.83e-08)
+
+
+def MeshMateCreate(modelName,materialName,elaticModules,possionRatio,density):
+    mdb.models[modelName].Material(name=materialName)
+    mdb.models[modelName].materials[materialName].Elastic(table=((float(elaticModules), float(possionRatio)), ))
+    mdb.models[modelName].materials[materialName].Density(table=((density, ), ))
+    

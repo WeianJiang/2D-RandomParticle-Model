@@ -15,7 +15,7 @@ def Mesh(modelName,partname,seedSize):
     p.generateMesh()
 
 
-def createMeshPart(modelName):
+def createMeshPart(modelName):#---no use anymore, because the interation is too difficult
     p = mdb.models[modelName].parts['MainPart']
     p.PartFromMesh(name='MainPart-mesh-1', copySets=True)
     p1 = mdb.models['Model-1'].parts['MainPart-mesh-1']
@@ -25,9 +25,27 @@ def createMeshPart(modelName):
 
 
 def getEleNum(modelName):
-    p = mdb.models[modelName].parts['MainPart-mesh-1']
+    p = mdb.models[modelName].parts['MainPart']
     e = p.elements
     return len(e)
+
+
+def createSetforEle(modelName):
+    p = mdb.models[modelName].parts['MainPart']
+    e = p.elements
+    totalNum=getEleNum(modelName)
+    for i in range(totalNum):
+        elements = e[i:i+1]
+        p.Set(elements=elements, name='Set-Mesh-'+str(i))
+
+def assignSectionToSet(modelName,section,meshSet):
+    #mesh set in naming rule "Set-Mesh-i"
+    p = mdb.models[modelName].parts['MainPart']
+    region = p.sets[meshSet]
+    p = mdb.models[modelName].parts['MainPart']
+    p.SectionAssignment(region=region, sectionName=section, offset=0.0, 
+        offsetType=MIDDLE_SURFACE, offsetField='', 
+        thicknessAssignment=FROM_SECTION)
 
 if __name__=='__main__':
     pass

@@ -18,7 +18,7 @@ from AlgorithmFiles import MeshPartModel
 MeshModel=MeshPartModel.MeshPartModel()
 MeshModel.setPath(1)
 MeshModel.setLoadDsp(-0.2)
-MeshModel.setJobName('Job-1')
+MeshModel.setJobName('Job-999')
 
 
 # #------------------------------------------------------------------------------------importing data
