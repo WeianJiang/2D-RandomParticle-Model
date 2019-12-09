@@ -35,7 +35,7 @@ class MeshPartModel(dspLoad):
         main_Mesh.createSetforEle(self.Model)
         MeshEleNum=main_Mesh.getEleNum(self.Model)
         for i in range(MeshEleNum):
-            main_Property.materialCreate(self.Model,'Mesh-Mate-'+str(i),weibullGenrator(1.5,23000),0.2,2e-09)
+            main_Property.materialCreate(self.Model,'Mesh-Mate-'+str(i),weibullGenrator(1.5,23000),0.2,2e-09)# generating properties for each element set
             main_Property.sectionCreate(self.Model,'Mesh-'+str(i),'Mesh-Mate-'+str(i))
             main_Mesh.assignSectionToSet(self.Model,'Mesh-'+str(i),'Set-Mesh-'+str(i))
 
