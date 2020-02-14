@@ -39,8 +39,10 @@ class MeshPartModel(dspLoad):
         meshComPlasticityGenerator(MeshEleNum,40,2)
         meshTenPlasticityGenerator(MeshEleNum,4,5)
         for i in range(MeshEleNum):
-            main_Property.materialCreate(self.Model,'Mesh-Mate-'+str(i),weibullGenrator(1.5,23000),0.2,2e-09)# generating properties for each element set
-            main_Property.PLMeshMaterialCreate(self.Model,MeshEleNum)
+            main_Property.materialCreate(self.Model,'Mesh-Mate-'+str(i),weibullGenrator(1.5,23000),0.2,2e-09)# creating new mat,
+
+        main_Property.PLMeshMaterialCreate(self.Model,MeshEleNum) #creating new pl mat
+        for i in range(MeshEleNum):
             main_Property.sectionCreate(self.Model,'Mesh-'+str(i),'Mesh-Mate-'+str(i))
             main_Mesh.assignSectionToSet(self.Model,'Mesh-'+str(i),'Set-Mesh-'+str(i))
 
