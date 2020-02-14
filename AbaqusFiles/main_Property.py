@@ -55,6 +55,10 @@ def PLMeshMaterialCreate(modelName,meshNumbers):
     Tension=np.loadtxt('TenMeshPl.txt')
     ComDamage=np.loadtxt('ComDamage.txt')
     TenDamage=np.loadtxt('TenDamage.txt')
+    Compress=np.reshape(3,2)
+    Tension=np.reshape(3,2)
+    ComDamage=np.reshape(3,2)
+    TenDamage=np.reshape(3,2)
     for i in range(meshNumbers):
         materialName='Mesh-Mate-'+str(i)
         # mdb.models[modelName].Material(name=materialName)
