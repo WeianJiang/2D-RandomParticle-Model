@@ -8,6 +8,7 @@ def materialCreate(modelName,materialName,elaticModules,possionRatio,density):
     mdb.models[modelName].materials[materialName].Density(table=((density, ), ))
 
 
+
 def sectionCreate(modelName,sectionName,materialName):
     mdb.models[modelName].HomogeneousSolidSection(name=sectionName, material=materialName, thickness=None)
 
@@ -23,20 +24,20 @@ def assignSection(modelName,partName,sectionName):
         thicknessAssignment=FROM_SECTION)
 
 def PLassign(modelName,materialName,ModelPathNumber):
-        import numpy as np
-        Compress=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Compression.txt')
-        Tensile=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Tension.txt')
-        TensionDamage=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/TensionDamage.txt')
-        mdb.models[modelName].materials[materialName].ConcreteDamagedPlasticity(table=((
-        38.0, 0.1, 1.16, 0.667, 0.0), ))
-        mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
-        table=(Compress))
-        mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
-        table=(Tensile),type=DISPLACEMENT)
-        mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteTensionDamage(
-        table=TensionDamage, type=DISPLACEMENT)
-        mdb.models[modelName].materials[materialName].Damping(alpha=4.15, 
-        beta=4.83e-08)
+    import numpy as np
+    Compress=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Compression.txt')
+    Tensile=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Tension.txt')
+    TensionDamage=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/TensionDamage.txt')
+    mdb.models[modelName].materials[materialName].ConcreteDamagedPlasticity(table=((
+    38.0, 0.1, 1.16, 0.667, 0.0), ))
+    mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
+    table=(Compress))
+    mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
+    table=(Tensile),type=DISPLACEMENT)
+    mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteTensionDamage(
+    table=TensionDamage, type=DISPLACEMENT)
+    mdb.models[modelName].materials[materialName].Damping(alpha=4.15, 
+    beta=4.83e-08)
 
 
 def MeshMateCreate(modelName,materialName,elaticModules,possionRatio,density):
@@ -44,3 +45,28 @@ def MeshMateCreate(modelName,materialName,elaticModules,possionRatio,density):
     mdb.models[modelName].materials[materialName].Elastic(table=((float(elaticModules), float(possionRatio)), ))
     mdb.models[modelName].materials[materialName].Density(table=((density, ), ))
     
+def PLMeshMaterialCreate(modelName,meshNumbers):
+    import numpy as np
+    Compress=[]
+    Tension=[]
+    ComDamage=[]
+    TenDamage=[]
+    Compress=np.loadtxt('ComMeshPl.txt')
+    Tension=np.loadtxt('TenMeshPl.txt')
+    ComDamage=np.loadtxt('ComDamage.txt')
+    TenDamage=np.loadtxt('TenDamage.txt')
+    for i in range(meshNumbers):
+        materialName='Mesh-Mate-'+str(i)
+        # mdb.models[modelName].Material(name=materialName)
+        # mdb.models[modelName].materials[materialName].Elastic(table=((float(elaticModules), float(possionRatio)), ))
+        # mdb.models[modelName].materials[materialName].Density(table=((density, ), ))
+        mdb.models[modelName].materials[materialName].ConcreteDamagedPlasticity(table=((
+        38.0, 0.1, 1.16, 0.667, 0.0), ))
+        mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
+        table=(Compress[i]))
+        mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
+        table=(Tension[i]),type=STRAIN)
+        mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionDamage(
+        table=(TenDamage[i]), type=STRAIN)
+        mdb.models[modelName].materials[materialName].Damping(alpha=4.15, 
+        beta=4.83e-08)
