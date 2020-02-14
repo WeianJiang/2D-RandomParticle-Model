@@ -55,10 +55,10 @@ def PLMeshMaterialCreate(modelName,meshNumbers):
     Tension=np.loadtxt('TenMeshPl.txt')
     ComDamage=np.loadtxt('ComDamage.txt')
     TenDamage=np.loadtxt('TenDamage.txt')
-    Compress=np.reshape(3,2)
-    Tension=np.reshape(3,2)
-    ComDamage=np.reshape(3,2)
-    TenDamage=np.reshape(3,2)
+    # Compress=np.reshape(3,2)
+    # Tension=np.reshape(3,2)
+    # ComDamage=np.reshape(3,2)
+    # TenDamage=np.reshape(3,2)
     for i in range(meshNumbers):
         materialName='Mesh-Mate-'+str(i)
         # mdb.models[modelName].Material(name=materialName)
@@ -67,10 +67,10 @@ def PLMeshMaterialCreate(modelName,meshNumbers):
         mdb.models[modelName].materials[materialName].ConcreteDamagedPlasticity(table=((
         38.0, 0.1, 1.16, 0.667, 0.0), ))
         mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
-        table=(Compress[i]))
+        table=(Compress[i].reshape(3,2)))
         mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
-        table=(Tension[i]),type=STRAIN)
+        table=(Tension[i].reshape(3,2)),type=STRAIN)
         mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionDamage(
-        table=(TenDamage[i]), type=STRAIN)
+        table=(TenDamage[i].reshape(3,2)), type=STRAIN)
         mdb.models[modelName].materials[materialName].Damping(alpha=4.15, 
         beta=4.83e-08)
