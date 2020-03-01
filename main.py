@@ -10,15 +10,15 @@
 
 from AlgorithmFiles import dspLoad
 from AlgorithmFiles import MeshPartModel
-# Model=dspLoad.dspLoad()
-# Model.setPath(1)
-# Model.setLoadDsp(-0.2)
-# Model.setJobName('Job-Test')
+Model=dspLoad.dspLoad()
+Model.setPath(1)
+Model.setLoadDsp(-0.2)
+Model.setJobName('Job-Test')
 
-MeshModel=MeshPartModel.MeshPartModel()
-MeshModel.setPath(1)
-MeshModel.setLoadDsp(-0.2)
-MeshModel.setJobName('Job-999')
+# MeshModel=MeshPartModel.MeshPartModel()
+# MeshModel.setPath(1)
+# MeshModel.setLoadDsp(-0.2)
+# MeshModel.setJobName('Job-999')
 
 
 # #------------------------------------------------------------------------------------importing data
