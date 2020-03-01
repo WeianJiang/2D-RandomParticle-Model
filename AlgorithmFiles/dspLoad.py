@@ -49,6 +49,7 @@ class dspLoad():
         main_PartGen.partRectGen(self.Model,'MainPart',self.circleData)#generating the retangle
         main_Property.materialCreate(self.Model,'MainPart',23000,0.2,2e-09)#property of mortar
         main_Property.PLassign(self.Model,'MainPart',self.path)
+        main_Property.interfacePLassign(self.Model,self.partNumbers,self.path)
         main_Property.sectionCreate(self.Model,'MainPart','MainPart')
         main_Property.assignSection(self.Model,'MainPart','MainPart')
 

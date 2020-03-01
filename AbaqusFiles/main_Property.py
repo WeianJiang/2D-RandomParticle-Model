@@ -34,10 +34,28 @@ def PLassign(modelName,materialName,ModelPathNumber):
     table=(Compress))
     mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
     table=(Tensile),type=DISPLACEMENT)
-    mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteTensionDamage(
-    table=TensionDamage, type=DISPLACEMENT)
+    # mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteTensionDamage(
+    # table=TensionDamage, type=DISPLACEMENT) # NO need to use damage factor for monotonlic loading
     mdb.models[modelName].materials[materialName].Damping(alpha=4.15, 
     beta=4.83e-08)
+
+def interfacePLassign(modelName,interfaceNumbers,ModelPathNumber):
+    import numpy as np
+    Compress=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Compression.txt')
+    Tensile=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Tension.txt')
+    Compress[:,0]=Compress[:,0]/10
+    Tensile[:,0]=Tensile[:,0]/10
+    for i in range(interfaceNumbers):
+        mdb.models[modelName].materials['interface-'+str(i)].ConcreteDamagedPlasticity(table=((
+        38.0, 0.1, 1.16, 0.667, 0.0), ))
+        mdb.models[modelName].materials['interface-'+str(i)].concreteDamagedPlasticity.ConcreteCompressionHardening(
+        table=(Compress))
+        mdb.models[modelName].materials['interface-'+str(i)].concreteDamagedPlasticity.ConcreteTensionStiffening(
+        table=(Tensile),type=STRAIN)
+        # mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteTensionDamage(
+        # table=TensionDamage, type=DISPLACEMENT) # NO need to use damage factor for monotonlic loading
+        # mdb.models[modelName].materials['interface-'+str(i)].Damping(alpha=4.15, 
+        # beta=4.83e-08)# NO need to input damping
 
 
 def MeshMateCreate(modelName,materialName,elaticModules,possionRatio,density):
