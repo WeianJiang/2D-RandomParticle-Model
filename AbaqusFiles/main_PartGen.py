@@ -4,11 +4,11 @@ from abaqusConstants import *
 def createModel(modelName):
     mdb.Model(name=modelName, modelType=STANDARD_EXPLICIT)
 
-def partRectGen(modelName,partname, circleData=[]):
-    s = mdb.models[modelName].ConstrainedSketch(name='__profile__', sheetSize=150.0)
+def partRectGen(modelName,partname,size, circleData=[]):
+    s = mdb.models[modelName].ConstrainedSketch(name='__profile__', sheetSize=size)
     g, v, d, c = s.geometry, s.vertices, s.dimensions, s.constraints
     s.setPrimaryObject(option=STANDALONE)
-    s.rectangle(point1=(0, 0), point2=(150, 150))#setCubic
+    s.rectangle(point1=(0, 0), point2=(size, size))#setCubic
     for number in range(len(circleData)):
         s.CircleByCenterPerimeter(center=(circleData[number][0], circleData[number][1]), point1=(circleData[number][0]+circleData[number][2],circleData[number][1])) #setCircle
     p = mdb.models[modelName].Part(name=partname, dimensionality=TWO_D_PLANAR, 
@@ -19,8 +19,8 @@ def partRectGen(modelName,partname, circleData=[]):
     p = mdb.models[modelName].parts[partname]
     del mdb.models[modelName].sketches['__profile__']
 
-def partCircleGen(modelName,partname,target_x,target_y,radi):#single CIrcle
-    s1 = mdb.models[modelName].ConstrainedSketch(name='__profile__', sheetSize=150.0)
+def partCircleGen(modelName,partname,size,target_x,target_y,radi):#single CIrcle
+    s1 = mdb.models[modelName].ConstrainedSketch(name='__profile__', sheetSize=size)
     g, v, d, c = s1.geometry, s1.vertices, s1.dimensions, s1.constraints
     s1.setPrimaryObject(option=STANDALONE)
     s1.CircleByCenterPerimeter(center=(target_x,target_y), point1=(target_x+radi, target_y))#setCircle
@@ -33,8 +33,8 @@ def partCircleGen(modelName,partname,target_x,target_y,radi):#single CIrcle
     del mdb.models[modelName].sketches['__profile__']
 
 
-def interfaceGen(modelName,partname,target_x,target_y,outterRadi,innerRadi):
-    s1 = mdb.models[modelName].ConstrainedSketch(name='__profile__', sheetSize=150.0)
+def interfaceGen(modelName,partname,size,target_x,target_y,outterRadi,innerRadi):
+    s1 = mdb.models[modelName].ConstrainedSketch(name='__profile__', sheetSize=size)
     g, v, d, c = s1.geometry, s1.vertices, s1.dimensions, s1.constraints
     s1.setPrimaryObject(option=STANDALONE)
     s1.CircleByCenterPerimeter(center=(target_x,target_y), point1=(target_x+outterRadi, target_y))#set outter Circle

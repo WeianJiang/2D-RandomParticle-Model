@@ -19,9 +19,9 @@ class MeshPartModel(dspLoad):
     
     def _Material(self):
         for number in range(self.partNumbers):#here, all components are generated and material created, section assigned.
-            main_PartGen.partCircleGen(self.Model,self.CoarseAggregate[number],self.innerCircleData[number][0],
+            main_PartGen.partCircleGen(self.Model,self.CoarseAggregate[number],self.Size,self.innerCircleData[number][0],
                 self.innerCircleData[number][1],self.innerCircleData[number][2])
-            main_PartGen.interfaceGen(self.Model,self.interface[number],self.interfaceData[number][0],self.interfaceData[number][1],
+            main_PartGen.interfaceGen(self.Model,self.interface[number],self.Size,self.interfaceData[number][0],self.interfaceData[number][1],
                 self.interfaceData[number][2],self.interfaceData[number][3])
             main_Property.materialCreate(self.Model,self.CoarseAggregate[number],self.GraniteElastic[number],0.3,2.7e-09)#property of rock
             main_Property.materialCreate(self.Model,self.interface[number],self.interfaceElastic[number],0.3,2e-09)
@@ -30,7 +30,7 @@ class MeshPartModel(dspLoad):
             main_Property.assignSection(self.Model,self.CoarseAggregate[number],self.CoarseAggregate[number])
             main_Property.assignSection(self.Model,self.interface[number],self.interface[number])
 
-        main_PartGen.partRectGen(self.Model,'MainPart',self.circleData)#generating the retangle
+        main_PartGen.partRectGen(self.Model,'MainPart',self.Size,self.circleData)#generating the retangle
         
     
     def _MeshfromPart(self):

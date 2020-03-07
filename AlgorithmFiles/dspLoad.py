@@ -32,12 +32,15 @@ class dspLoad():
         self._setImportMaterial()
         main_PartGen.createModel(self.Model)
 
+    def setSize(self,Size=150):
+        self.Size=Size
+
     
     def _Material(self):
         for number in range(self.partNumbers):#here, all components are generated and material created, section assigned.
-            main_PartGen.partCircleGen(self.Model,self.CoarseAggregate[number],self.innerCircleData[number][0],
+            main_PartGen.partCircleGen(self.Model,self.CoarseAggregate[number],self.Size,self.innerCircleData[number][0],
                 self.innerCircleData[number][1],self.innerCircleData[number][2])
-            main_PartGen.interfaceGen(self.Model,self.interface[number],self.interfaceData[number][0],self.interfaceData[number][1],
+            main_PartGen.interfaceGen(self.Model,self.interface[number],self.Size,self.interfaceData[number][0],self.interfaceData[number][1],
                 self.interfaceData[number][2],self.interfaceData[number][3])
             main_Property.materialCreate(self.Model,self.CoarseAggregate[number],self.GraniteElastic[number],0.3,2.7e-09)#property of rock
             main_Property.materialCreate(self.Model,self.interface[number],self.interfaceElastic[number],0.3,2e-09)
@@ -46,7 +49,7 @@ class dspLoad():
             main_Property.assignSection(self.Model,self.CoarseAggregate[number],self.CoarseAggregate[number])
             main_Property.assignSection(self.Model,self.interface[number],self.interface[number])
 
-        main_PartGen.partRectGen(self.Model,'MainPart',self.circleData)#generating the retangle
+        main_PartGen.partRectGen(self.Model,'MainPart',self.Size,self.circleData)#generating the retangle
         main_Property.materialCreate(self.Model,'MainPart',23000,0.2,2e-09)#property of mortar
         main_Property.PLassign(self.Model,'MainPart',self.path)
         main_Property.interfacePLassign(self.Model,self.partNumbers,self.path)
@@ -80,15 +83,15 @@ class dspLoad():
 
 
     def _Load(self):
-        main_Load.setBoundary(self.Model,'MainPart',1)#set the boundary
-        index=main_Load.setReferPoint(self.Model)
+        main_Load.setBoundary(self.Model,'MainPart',self.Size,1)#set the boundary
+        index=main_Load.setReferPoint(self.Model,self.Size)
         dsp=self.loadDsp
         # for i in range(self.stepNum):
         # #     main_Load.setLoad('MainPart',6000/stepNum,i+1)
         #     # main_Load.setReferConLoad(-6500/stepNum,i+1,index)
         #     dsp=-0.2/self.stepNum+dsp
         #     #main_Load.setDspLoad('MainPart',dsp,i+1)
-        main_Load.setReferDspLoad(self.Model,'MainPart',dsp,1,index)
+        main_Load.setReferDspLoad(self.Model,'MainPart',dsp,self.Size,1,index)
 
     def setLoadDsp(self,loadDsp):
         self.loadDsp=loadDsp
