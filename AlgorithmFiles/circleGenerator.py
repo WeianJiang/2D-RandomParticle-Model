@@ -1,7 +1,7 @@
 import numpy as np
 
 
-size=150
+size=200
 
 def drawCircle(centroid_x, centroid_y, radi):  # draw circles by given parameters, in which order is useless
     import matplotlib.pyplot as plt
@@ -12,14 +12,14 @@ def drawCircle(centroid_x, centroid_y, radi):  # draw circles by given parameter
 
 
 def boudaryDetect(x, y, r):  # Funtion used to detect whether the circle cross the boundry
-    if x-r > 0 and y-r > 0 and x+r < size and y+r < size:
+    if x-r > 5 and y-r > 5 and x+r < size -5 and y+r < size-5:
         return True
 
 
 # Function to detect the position relatioship between two circles
 def overlapDetect(x1, y1, r1, x2, y2, r2):
     distanceSquare = np.square(x1-x2)+np.square(y1-y2)
-    if distanceSquare < (r1+r2)**2:
+    if distanceSquare  < (r1+r2)**2 +50:
         return True  # return ture if overlap
 
 
@@ -37,7 +37,7 @@ def areaRatio(circleArray):
     area=0
     for i in range(len(circleArray)):
         area = 3.14*circleArray[i][2]**2 + area
-    return area/150/150
+    return area/size/size
 
 
 def overlapCounting(circleArray):
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     plt.axis([0, size, 0, size])
     #print dataGen()
     circleData=circleGenerator(200,8,10)
-    circleData=circleGenerator(2000,3,8,circleData)
+    circleData=circleGenerator(10000,5,8,circleData)
     circleData=np.array(circleData)
     np.savetxt('Circle.txt',circleData)
 
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     import materialGenerator
     #materialGenerator.ElasticGenerator('Granite',60)
     #print overlapCounting(circleData)
-    #print areaRatio(circleData)
+    print areaRatio(circleData)
     for i in range(len(circleData)):  # draw module
         # "*" used for transfer three parameters in one
         drawCircle(circleData[i][0],circleData[i][1],circleData[i][2])

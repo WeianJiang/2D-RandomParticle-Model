@@ -28,14 +28,17 @@ def PLassign(modelName,materialName,ModelPathNumber):
     Compress=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Compression.txt')
     Tensile=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Tension.txt')
     TensionDamage=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/TensionDamage.txt')
+    CompressionDamage=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Compression.txt')
     mdb.models[modelName].materials[materialName].ConcreteDamagedPlasticity(table=((
     38.0, 0.1, 1.16, 0.667, 0.0), ))
     mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
     table=(Compress))
     mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
     table=(Tensile),type=STRAIN)
-    # mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteTensionDamage(
-    # table=TensionDamage, type=DISPLACEMENT) # NO need to use damage factor for monotonlic loading
+    mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteTensionDamage(
+    table=TensionDamage, type=STRAIN) 
+    mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteCompressionDamage(
+    table=CompressionDamage) 
     mdb.models[modelName].materials[materialName].Damping(alpha=4.15, 
     beta=4.83e-08)
 
