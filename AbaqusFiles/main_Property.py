@@ -13,22 +13,21 @@ def sectionCreate(modelName,sectionName,materialName):
     mdb.models[modelName].HomogeneousSolidSection(name=sectionName, material=materialName, thickness=None)
 
 
-def assignSection(modelName,partName,sectionName):
+def assignSection(modelName,partName,setName,sectionName):
     p = mdb.models[modelName].parts[partName]
-    f = p.faces
-    faces = f.getSequenceFromMask(mask=('[#1 ]', ), )
-    region = p.Set(faces=faces, name='Set-1')
+    region = p.sets[setName]
     p = mdb.models[modelName].parts[partName]
     p.SectionAssignment(region=region, sectionName=sectionName, offset=0.0, 
         offsetType=MIDDLE_SURFACE, offsetField='', 
         thicknessAssignment=FROM_SECTION)
 
-def PLassign(modelName,materialName,ModelPathNumber):
+
+def PLMatCreate(modelName,materialName,ModelPathNumber):
     import numpy as np
     Compress=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Compression.txt')
     Tensile=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Tension.txt')
     TensionDamage=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/TensionDamage.txt')
-    CompressionDamage=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/Compression.txt')
+    CompressionDamage=np.loadtxt('Constitution/'+str(ModelPathNumber)+'/CompressionDamage.txt')
     mdb.models[modelName].materials[materialName].ConcreteDamagedPlasticity(table=((
     38.0, 0.1, 1.16, 0.667, 0.0), ))
     mdb.models[modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
@@ -39,8 +38,7 @@ def PLassign(modelName,materialName,ModelPathNumber):
     table=TensionDamage, type=STRAIN) 
     mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteCompressionDamage(
     table=CompressionDamage) 
-    mdb.models[modelName].materials[materialName].Damping(alpha=4.15, 
-    beta=4.83e-08)
+
 
 def interfacePLassign(modelName,interfaceNumbers,ModelPathNumber):
     import numpy as np
@@ -55,7 +53,7 @@ def interfacePLassign(modelName,interfaceNumbers,ModelPathNumber):
         table=(Compress))
         mdb.models[modelName].materials['interface-'+str(i)].concreteDamagedPlasticity.ConcreteTensionStiffening(
         table=(Tensile),type=STRAIN)
-        # mdb.models[modelName].materials['MainPart'].concreteDamagedPlasticity.ConcreteTensionDamage(
+        # mdb.models[modelName].materials[partName].concreteDamagedPlasticity.ConcreteTensionDamage(
         # table=TensionDamage, type=DISPLACEMENT) # NO need to use damage factor for monotonlic loading
         # mdb.models[modelName].materials['interface-'+str(i)].Damping(alpha=4.15, 
         # beta=4.83e-08)# NO need to input damping

@@ -15,7 +15,7 @@ def setPressureLoad(modelName,InstanceName,load,size,order):
 def setBoundary(modelName,InstanceName,size,order):
         a = mdb.models[modelName].rootAssembly
         e1 = a.instances[InstanceName].edges
-        edges1 = e1.findAt(((size/2, 0.0), ))
+        edges1 = e1.findAt(((size/2,0, 0.0), ))
         region = a.Set(edges=edges1, name='Set-'+str(order))
         mdb.models[modelName].DisplacementBC(name='BC-'+str(order), createStepName='Initial', 
         region=region, u1=UNSET, u2=SET, ur3=UNSET, amplitude=UNSET, 
