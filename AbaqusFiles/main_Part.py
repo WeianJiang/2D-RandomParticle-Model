@@ -18,8 +18,10 @@ class PartModule(MyModel):
         s.unsetPrimaryObject()
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         del mdb.models[MyModel._modelName].sketches['__profile__']
+    
 
-    def partCircleGen(self,circleData=[]):
+
+    def _partCircleGen(self,circleData=[]):
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         f, e, d1 = p.faces, p.edges, p.datums
         t = p.MakeSketchTransform(sketchPlane=f.findAt(coordinates=(50.0, 50.0, 0.0), 
@@ -35,8 +37,15 @@ class PartModule(MyModel):
             target_x=circleData[number][0]
             target_y=circleData[number][1]
             radi=circleData[number][2]
+            #the circle is regarded as the outter boundary of transition zone,
+            s1.CircleByCenterPerimeter(center=(target_x, target_y), point1=(target_x+0.7*radi, target_y))#the aggregate /transition zone,
+            s1.CircleByCenterPerimeter(center=(target_x, target_y), point1=(target_x+0.8*radi, target_y))#the aggregate /transition zone,let it be 1/10 of the radi
             s1.CircleByCenterPerimeter(center=(target_x, target_y), point1=(target_x+0.9*radi, target_y))#the interface, 1/10 of the radi
-            s1.CircleByCenterPerimeter(center=(target_x, target_y), point1=(target_x+radi, target_y))
+            s1.CircleByCenterPerimeter(center=(target_x, target_y), point1=(target_x+radi, target_y))#the outter-most circle, the transition zone
+            #0.9~1, the transition zone, the matrix property
+            #0.8~0.9, the interface zone, the interface property
+            #0.7~0.8, the transition zone, the aggregate property
+            #~0.7, the aggrefate property
             
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         f = p.faces
@@ -50,17 +59,17 @@ class PartModule(MyModel):
             target_x=circleData[i][0]
             target_y=circleData[i][1]
             radi=circleData[i][2]
-            createSet(MyModel._modelName,MyModel._concretePartName,target_x,target_y,'ParticleSet-'+str(i))
-            createSet(MyModel._modelName,MyModel._concretePartName,target_x+0.95*radi,target_y,'InterfaceSet-'+str(i))
-        createSet(MyModel._modelName,MyModel._concretePartName,0,0,'MainPartSet')
+            self._createSet(target_x,target_y,'ParticleSet-'+str(i))
+            self._createSet(target_x+0.95*radi,target_y,'InterfaceSet-'+str(i))
+        self._createSet(0,0,'MainPartSet')
 
 
-
-
-    def createSet(MyModel._modelName,MyModel._concretePartName,target_x,target_y,setName):
+    def _createSet(self,target_x,target_y,setName,target_x2=0,target_y2=0):
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         f = p.faces
         faces = f.findAt(((target_x, target_y, 0.0), ))
         p.Set(faces=faces, name=setName)
+
+
 
 
