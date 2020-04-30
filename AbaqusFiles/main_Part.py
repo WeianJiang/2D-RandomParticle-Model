@@ -64,11 +64,18 @@ class PartModule(MyModel):
         self._createSet(0,0,'MainPartSet')
 
 
-    def _createSet(self,target_x,target_y,setName,target_x2=0,target_y2=0):
+    def _createSet(self,target_x,target_y,setName):
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         f = p.faces
-        faces = f.findAt(((target_x, target_y, 0.0), ))
-        p.Set(faces=faces, name=setName)
+        if setName[0]=='P':
+            faces = f.findAt(((target_x, target_y, 0.0), (target_x+0.75*radi,target_y,0.0),))
+            p.Set(faces=faces, name=setName)
+        elif setName[0]=='I':
+            faces = f.findAt(((target_x, target_y, 0.0), ))
+            p.Set(faces=faces, name=setName)
+        elif setName[0]=='M':
+            
+
 
 
 
