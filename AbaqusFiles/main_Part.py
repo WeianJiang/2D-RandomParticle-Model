@@ -55,26 +55,26 @@ class PartModule(MyModel):
         s1.unsetPrimaryObject()
         del mdb.models[MyModel._modelName].sketches['__profile__']
         #procedure of create particle set
+        MatrixTarget=()
         for i in range(particleNumbers):
             target_x=circleData[i][0]
             target_y=circleData[i][1]
             radi=circleData[i][2]
-            self._createSet(target_x,target_y,'ParticleSet-'+str(i))
-            self._createSet(target_x+0.95*radi,target_y,'InterfaceSet-'+str(i))
-        self._createSet(0,0,'MainPartSet')
+            ParticleSetTarget=((target_x,target_y,0.0),(target_x+0.75*radi,target_y,0.0))
+            InterfaceSetTarget=((target_x+0.85*radi, target_y, 0.0), )
+            MatrixTarget=((target_x+0.95*radi,target_y,0.0),)+MatrixTarget
+            self._createSet('ParticleSet-'+str(i),ParticleSetTarget)
+            self._createSet('InterfaceSet-'+str(i),InterfaceSetTarget)
+        MatrixTarget=((0,0,0),)+MatrixTarget
+        self._createSet('MatrixSet',MatrixTarget)
 
 
-    def _createSet(self,target_x,target_y,setName):
+    def _createSet(self,setName,*targetTuple):
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         f = p.faces
-        if setName[0]=='P':
-            faces = f.findAt(((target_x, target_y, 0.0), (target_x+0.75*radi,target_y,0.0),))
-            p.Set(faces=faces, name=setName)
-        elif setName[0]=='I':
-            faces = f.findAt(((target_x, target_y, 0.0), ))
-            p.Set(faces=faces, name=setName)
-        elif setName[0]=='M':
-            
+        faces = f.findAt(targetTuple)
+        p.Set(faces=faces, name=setName)
+
 
 
 
