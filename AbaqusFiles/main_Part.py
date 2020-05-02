@@ -64,19 +64,23 @@ class PartModule(MyModel):
             target_x=circleData[i][0]
             target_y=circleData[i][1]
             radi=circleData[i][2]
-            AggregateSetTarget=((target_x,target_y,0.0),(target_x+0.75*radi,target_y,0.0))
+            AggregateSetTarget=(((target_x,target_y,0.0), ),((target_x+0.75*radi,target_y,0.0), ))
             InterfaceSetTarget=((target_x+0.85*radi, target_y, 0.0), )
-            MatrixTarget=((target_x+0.95*radi,target_y,0.0),)+MatrixTarget
-            self._createSet('AggregateSet-'+str(i),AggregateSetTarget)
+            MatrixTarget=(((target_x+0.95*radi,target_y,0.0),),)+MatrixTarget
+            # p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
+            # f = p.faces
+            # faces = f.findAt(*AggregateSetTarget)
+            # p.Set(faces=faces, name='Aggretset')
+            self._createSet('AggregateSet-'+str(i),*AggregateSetTarget)
             self._createSet('InterfaceSet-'+str(i),InterfaceSetTarget)
-        MatrixTarget=((0,0,0),)+MatrixTarget
-        self._createSet('MatrixSet',MatrixTarget)
+        MatrixTarget=(((0,0,0),),)+MatrixTarget
+        self._createSet('MatrixSet',*MatrixTarget)
 
 
     def _createSet(self,setName,*targetTuple):
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         f = p.faces
-        faces = f.findAt(targetTuple)
+        faces = f.findAt(*targetTuple)
         p.Set(faces=faces, name=setName)
 
 
