@@ -74,15 +74,18 @@ class dspLoad(MyModel):
 
 
     def _Load(self):
-        main_Load.setBoundary(self.Model,'MainPart',self.Size,1)#set the boundary
-        index=main_Load.setReferPoint(self.Model,self.Size)
+
+        load1=LoadModule()
+        load1.setBoundary(1)
+        
+        index=load1.setReferPoint()
         dsp=self.loadDsp
         # for i in range(self.stepNum):
         # #     main_Load.setLoad('MainPart',6000/stepNum,i+1)
         #     # main_Load.setReferConLoad(-6500/stepNum,i+1,index)
         #     dsp=-0.2/self.stepNum+dsp
         #     #main_Load.setDspLoad('MainPart',dsp,i+1)
-        main_Load.setReferDspLoad(self.Model,'MainPart',dsp,self.Size,1,index)
+        load1.setReferDspLoad(dsp,1,index)
 
     def setLoadDsp(self,loadDsp):
         self.loadDsp=loadDsp

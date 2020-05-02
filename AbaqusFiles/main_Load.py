@@ -18,10 +18,10 @@ class LoadModule(MyModel):
         #                 region=region, distributionType=UNIFORM, field='', magnitude=load, amplitude=UNSET)
 
 
-        def setBoundary(self,size,order):
+        def setBoundary(self,order):
                 a = mdb.models[MyModel._modelName].rootAssembly
                 e1 = a.instances[MyModel._concretePartName].edges
-                edges1 = e1.findAt(((size/2,0, 0.0), ))
+                edges1 = e1.findAt(((MyModel._sectionLength/2,0, 0.0), ))
                 region = a.Set(edges=edges1, name='Set-'+str(order))
                 mdb.models[MyModel._modelName].DisplacementBC(name='BC-'+str(order), createStepName='Initial', 
                 region=region, u1=UNSET, u2=SET, ur3=UNSET, amplitude=UNSET, 
@@ -33,14 +33,14 @@ class LoadModule(MyModel):
                 #         region=region2, u1=SET, u2=UNSET, ur3=UNSET, amplitude=UNSET, 
                 #         distributionType=UNIFORM, fieldName='', localCsys=None)
 
-        def setReferConLoad(self,load,size,order,id):
+        def setReferConLoad(self,load,order,id):
                 a = mdb.models[MyModel._modelName].rootAssembly
                 r1 = a.referencePoints
                 refPoints1=(r1[id], )
                 region1=a.Set(referencePoints=refPoints1, name='m_Set-Load'+str(order))
                 a = mdb.models[MyModel._modelName].rootAssembly
                 s1 = a.instances['MainPart'].edges
-                side1Edges1 = s1.findAt(((37.5, size, 0.0), ))
+                side1Edges1 = s1.findAt(((37.5, MyModel._sectionHeight, 0.0), ))
                 region2=a.Surface(side1Edges=side1Edges1, name='s_Surf-Load'+str(order))
                 mdb.models[MyModel._modelName].Coupling(name='Constraint-Load'+str(order), controlPoint=region1, 
                 surface=region2, influenceRadius=WHOLE_SURFACE, couplingType=KINEMATIC, 
@@ -54,11 +54,11 @@ class LoadModule(MyModel):
                 region=region, cf2=load, distributionType=UNIFORM, field='', 
                 localCsys=None)
 
-        def setReferPoint(self,size):
+        def setReferPoint(self):
                 a = mdb.models[MyModel._modelName].rootAssembly
                 e1 = a.instances['MainPart'].edges
                 r=a.ReferencePoint(point=a.instances['MainPart'].InterestingPoint(edge=e1.findAt(
-                coordinates=(37.5, size, 0.0)), rule=MIDDLE))
+                coordinates=(37.5, MyModel._sectionHeight, 0.0)), rule=MIDDLE))
                 return r.id
 
         # def setDspLoad(self,partName,dsp,size,order):
