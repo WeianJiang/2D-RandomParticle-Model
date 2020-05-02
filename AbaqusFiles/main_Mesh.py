@@ -7,22 +7,37 @@ class MeshModule(MyModel):
 
     def __init__(self,circleData=[]):
         self.__circleData=circleData
-        self.__partNumbers=len(circleData)
+        
 
 
-    def SeedInterfaceByEdge(self,seedSize):
+    def SeedByEdge(self,seedSize):
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         e = p.edges
-        for i in range(self.__partNumbers):
+        for i in range(MyModel._circleNum):
+
+            #getting basic information
             target_x=self.__circleData[i][0]
             target_y=self.__circleData[i][1]
             radi=self.__circleData[i][2]
-            #the inner circle seed
+
+            #the Matrix/Tran edge
+            pickedEdges = e.findAt(((target_x+radi, target_y, 0.0), ))
+            p.seedEdgeBySize(edges=pickedEdges, size=seedSize, deviationFactor=0.1, 
+                constraint=FINER)
+
+            #the Tran/Interface edge
             pickedEdges = e.findAt(((target_x+0.9*radi, target_y, 0.0), ))
             p.seedEdgeBySize(edges=pickedEdges, size=seedSize, deviationFactor=0.1, 
                 constraint=FINER)
-            #the outter circle seed
-            pickedEdges = e.findAt(((target_x+radi, target_y, 0.0), ))
+            
+            #the Interface/Aggregate edge
+            pickedEdges = e.findAt(((target_x+0.8*radi, target_y, 0.0), ))
+            p.seedEdgeBySize(edges=pickedEdges, size=seedSize, deviationFactor=0.1, 
+                constraint=FINER)
+
+
+            #the Aggregate/Interface edge
+            pickedEdges = e.findAt(((target_x+0.7*radi, target_y, 0.0), ))
             p.seedEdgeBySize(edges=pickedEdges, size=seedSize, deviationFactor=0.1, 
                 constraint=FINER)
 
@@ -50,13 +65,13 @@ class MeshModule(MyModel):
         elif technq=='SWEEP':
             technq=SWEEP
         if part=='Particle':
-            for i in range(self.__partNumbers):
+            for i in range(MyModel._circleNum):
                 target_x=self.__circleData[i][0]
                 target_y=self.__circleData[i][1]
                 pickedRegions = f.findAt(((target_x, target_y, 0.0), ))
                 p.setMeshControls(regions=pickedRegions, elemShape=meshtype,technique=technq)
         elif part=='Interface':
-            for i in range(self.__partNumbers):
+            for i in range(MyModel._circleNum):
                 target_x=self.__circleData[i][0]
                 target_y=self.__circleData[i][1]
                 radi=self.__circleData[i][2]

@@ -88,9 +88,9 @@ class dspLoad(MyModel):
         self.loadDsp=loadDsp
 
     def _Mesh(self):
-        MeshPart=main_Mesh.Mesh(self.Model,'MainPart',self.circleData)
+        MeshPart=MeshModule(self.circleData)
         MeshPart.SeedMatrix(2)
-        MeshPart.SeedInterfaceByEdge(0.1)
+        MeshPart.SeedByEdge(0.1)
         MeshPart.MeshType('Particle','TRI','FREE')
         MeshPart.MeshType('Interface','QUAD','SWEEP')
         MeshPart.MeshType('Matrix','QUAD_DOMINATED','FREE')
