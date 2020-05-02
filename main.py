@@ -9,20 +9,20 @@
 # import numpy as np
 
 from AlgorithmFiles import dspLoad
-from AlgorithmFiles import MeshPartModel
-def createNormalModel(ModelPath=1,size=150,Load=-0.2,Job_name='Job-Test'):
-    Model=dspLoad.dspLoad()
-    Model.setSize(size)
-    Model.setPath(ModelPath)
-    Model.setLoadDsp(Load)
-    Model.setJobName(Job_name)
 
-def createMeshModel(ModelPath=1,size=150,Load=-0.2,Job_name='Job-Test'):
-    MeshModel=MeshPartModel.MeshPartModel()
-    MeshModel.setSize(size)
-    MeshModel.setPath(ModelPath)
-    MeshModel.setLoadDsp(Load)
-    MeshModel.setJobName(Job_name)
+
+Model=dspLoad.dspLoad()
+Model.setSize(150,150)
+Model.setPath(14)
+Model.setLoadDsp(2)
+
+
+# def createMeshModel(ModelPath=1,size=150,Load=-0.2,Job_name='Job-Test'):
+#     MeshModel=MeshPartModel.MeshPartModel()
+#     MeshModel.setSize(size)
+#     MeshModel.setPath(ModelPath)
+#     MeshModel.setLoadDsp(Load)
+#     MeshModel.setJobName(Job_name)
 
 
 # #------------------------------------------------------------------------------------importing data

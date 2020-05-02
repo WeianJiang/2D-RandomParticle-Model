@@ -7,8 +7,8 @@ from ModelModule import MyModel
 
 class JobModule(MyModel):
 
-    def createJob(self,cpus=1):
-        mdb.Job(name=MyModel._modelName, model=MyModel._modelName, description='', type=ANALYSIS, 
+    def createJob(self,name,cpus=1):
+        mdb.Job(name=name, model=MyModel._modelName, description='', type=ANALYSIS, 
             atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, 
             memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, 
             explicitPrecision=SINGLE, nodalOutputPrecision=SINGLE, echoPrint=OFF, 

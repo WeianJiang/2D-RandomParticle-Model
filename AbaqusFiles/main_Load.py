@@ -72,14 +72,14 @@ class LoadModule(MyModel):
         #         mdb.models[MyModel._modelName].boundaryConditions['BC-Load-'+str(order)].deactivate('Step-'+str(order+1))
 
 
-        def setReferDspLoad(self,partName,dsp,size,order,id):
+        def setReferDspLoad(self,dsp,order,id):
                 a = mdb.models[MyModel._modelName].rootAssembly
                 r1 = a.referencePoints
                 refPoints1=(r1[id], )
                 region1=a.Set(referencePoints=refPoints1, name='m_Set-Load'+str(order))
                 a = mdb.models[MyModel._modelName].rootAssembly
-                s1 = a.instances[partName].edges
-                side1Edges1 = s1.findAt(((37.5, size, 0.0), ))
+                s1 = a.instances[MyModel._concretePartName].edges
+                side1Edges1 = s1.findAt(((37.5, MyModel._sectionHeight, 0.0), ))
                 region2=a.Surface(side1Edges=side1Edges1, name='s_Surf-Load'+str(order))
                 mdb.models[MyModel._modelName].Coupling(name='Constraint-Load'+str(order), controlPoint=region1, 
                 surface=region2, influenceRadius=WHOLE_SURFACE, couplingType=KINEMATIC, 

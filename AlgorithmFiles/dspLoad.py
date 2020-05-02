@@ -89,6 +89,7 @@ class dspLoad(MyModel):
 
     def setLoadDsp(self,loadDsp):
         self.loadDsp=loadDsp
+        self._Job()
 
     def _Mesh(self):
         MeshPart=MeshModule(self.circleData)
@@ -118,14 +119,11 @@ class dspLoad(MyModel):
         self._Load()
         self._Mesh()
         job1=JobModule()
-        job1.createJob()
+        job1.createJob('Job-'+str(MyModel._modelName))
         
         
 
     
-    def setJobName(self,jobName):
-        self.jobName=jobName
-        self._Job()
-    
+
 
 
