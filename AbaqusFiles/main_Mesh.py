@@ -56,16 +56,13 @@ class MeshModule(MyModel):
 
         if meshtype=='TRI':
             meshtype=TRI
-
         elif meshtype=='QUAD':
             meshtype=QUAD
-
         elif meshtype=='QUAD_DOMINATED':
             meshtype=QUAD_DOMINATED
 
         if technq=='FREE':
             technq=FREE 
-
         elif technq=='SWEEP':
             technq=SWEEP
 
@@ -75,7 +72,7 @@ class MeshModule(MyModel):
 
                 target_x=self.__circleData[i][0]
                 target_y=self.__circleData[i][1]
-                pickedRegions = f.findAt(((target_x, target_y, 0.0), ))
+                pickedRegions = f.findAt((target_x, target_y, 0.0), )
                 p.setMeshControls(regions=pickedRegions, elemShape=meshtype,technique=technq)
 
         elif part=='Interface':
@@ -85,11 +82,11 @@ class MeshModule(MyModel):
                 target_x=self.__circleData[i][0]
                 target_y=self.__circleData[i][1]
                 radi=self.__circleData[i][2]
-                pickedRegions = f.findAt(((target_x+0.95*radi, target_y, 0.0), (target_x+0.85*radi, target_y, 0.0),(target_x+0.75*radi, target_y, 0.0),))
+                pickedRegions = f.findAt(((target_x+0.95*radi, target_y, 0.0), ),((target_x+0.85*radi, target_y, 0.0),),((target_x+0.75*radi, target_y, 0.0),))
                 p.setMeshControls(regions=pickedRegions, elemShape=meshtype, technique=technq)
 
         elif part=='Matrix':
-            pickedRegions = f.findAt(((0, 0, 0.0), ))
+            pickedRegions = f.findAt(((0, 0, 0.0),), )
             p.setMeshControls(regions=pickedRegions, elemShape=meshtype, technique=technq)
 
 

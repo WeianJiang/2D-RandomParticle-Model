@@ -56,8 +56,8 @@ class LoadModule(MyModel):
 
         def setReferPoint(self):
                 a = mdb.models[MyModel._modelName].rootAssembly
-                e1 = a.instances['MainPart'].edges
-                r=a.ReferencePoint(point=a.instances['MainPart'].InterestingPoint(edge=e1.findAt(
+                e1 = a.instances[MyModel._concretePartName].edges
+                r=a.ReferencePoint(point=a.instances[MyModel._concretePartName].InterestingPoint(edge=e1.findAt(
                 coordinates=(37.5, MyModel._sectionHeight, 0.0)), rule=MIDDLE))
                 return r.id
 

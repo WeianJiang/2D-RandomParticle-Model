@@ -94,10 +94,12 @@ class dspLoad(MyModel):
     def _Mesh(self):
         MeshPart=MeshModule(self.circleData)
         MeshPart.SeedMatrix(2)
-        MeshPart.SeedByEdge(1,0.5,2)
+        MeshPart.SeedByEdge(2,0.5,2)
         MeshPart.MeshType('Particle','TRI','FREE')
-        MeshPart.MeshType('Interface','QUAD','SWEEP')
-        MeshPart.MeshType('Matrix','QUAD_DOMINATED','FREE')
+        MeshPart.MeshType('Interface','TRI','FREE')
+        MeshPart.MeshType('Matrix','TRI','FREE')
+        # MeshPart.MeshType('Interface','QUAD','SWEEP')
+        # MeshPart.MeshType('Matrix','QUAD_DOMINATED','FREE')
 
 
         # for number in range(self.partNumbers):

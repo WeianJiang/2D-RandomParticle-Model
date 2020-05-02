@@ -74,7 +74,7 @@ class PropertyModule(MyModel):
             for i in range(MyModel._circleNum):
 
                 setName=self._materialName+'Set-'+str(i)
-                sectionName='SecOf-'+self._materialName+str(i)
+                sectionName='SecOf-'+self._materialName+'-'+str(i)
 
                 region = p.sets[setName]
                 p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
