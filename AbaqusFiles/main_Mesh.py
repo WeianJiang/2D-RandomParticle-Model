@@ -10,7 +10,7 @@ class MeshModule(MyModel):
         
 
 
-    def SeedByEdge(self,seedSize):
+    def SeedByEdge(self,seedSize_MatrxTran,seedSize_Interface,seedSize_Aggregate):
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         e = p.edges
         for i in range(MyModel._circleNum):
@@ -22,23 +22,22 @@ class MeshModule(MyModel):
 
             #the Matrix/Tran edge
             pickedEdges = e.findAt(((target_x+radi, target_y, 0.0), ))
-            p.seedEdgeBySize(edges=pickedEdges, size=seedSize, deviationFactor=0.1, 
+            p.seedEdgeBySize(edges=pickedEdges, size=seedSize_MatrxTran, deviationFactor=0.1, 
                 constraint=FINER)
 
             #the Tran/Interface edge
             pickedEdges = e.findAt(((target_x+0.9*radi, target_y, 0.0), ))
-            p.seedEdgeBySize(edges=pickedEdges, size=seedSize, deviationFactor=0.1, 
+            p.seedEdgeBySize(edges=pickedEdges, size=seedSize_Interface, deviationFactor=0.1, 
                 constraint=FINER)
             
             #the Interface/Aggregate edge
             pickedEdges = e.findAt(((target_x+0.8*radi, target_y, 0.0), ))
-            p.seedEdgeBySize(edges=pickedEdges, size=seedSize, deviationFactor=0.1, 
+            p.seedEdgeBySize(edges=pickedEdges, size=seedSize_Interface, deviationFactor=0.1, 
                 constraint=FINER)
-
 
             #the Aggregate/Interface edge
             pickedEdges = e.findAt(((target_x+0.7*radi, target_y, 0.0), ))
-            p.seedEdgeBySize(edges=pickedEdges, size=seedSize, deviationFactor=0.1, 
+            p.seedEdgeBySize(edges=pickedEdges, size=seedSize_Aggregate, deviationFactor=0.1, 
                 constraint=FINER)
 
     def SeedMatrix(self,seedsize):
@@ -54,29 +53,41 @@ class MeshModule(MyModel):
         '''
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         f = p.faces
+
         if meshtype=='TRI':
             meshtype=TRI
+
         elif meshtype=='QUAD':
             meshtype=QUAD
+
         elif meshtype=='QUAD_DOMINATED':
             meshtype=QUAD_DOMINATED
+
         if technq=='FREE':
             technq=FREE 
+
         elif technq=='SWEEP':
             technq=SWEEP
-        if part=='Particle':
+
+        if part=='Aggregate':
+
             for i in range(MyModel._circleNum):
+
                 target_x=self.__circleData[i][0]
                 target_y=self.__circleData[i][1]
                 pickedRegions = f.findAt(((target_x, target_y, 0.0), ))
                 p.setMeshControls(regions=pickedRegions, elemShape=meshtype,technique=technq)
+
         elif part=='Interface':
+
             for i in range(MyModel._circleNum):
+
                 target_x=self.__circleData[i][0]
                 target_y=self.__circleData[i][1]
                 radi=self.__circleData[i][2]
-                pickedRegions = f.findAt(((target_x+0.95*radi, target_y, 0.0), ))
+                pickedRegions = f.findAt(((target_x+0.95*radi, target_y, 0.0), (target_x+0.85*radi, target_y, 0.0),(target_x+0.75*radi, target_y, 0.0),))
                 p.setMeshControls(regions=pickedRegions, elemShape=meshtype, technique=technq)
+
         elif part=='Matrix':
             pickedRegions = f.findAt(((0, 0, 0.0), ))
             p.setMeshControls(regions=pickedRegions, elemShape=meshtype, technique=technq)

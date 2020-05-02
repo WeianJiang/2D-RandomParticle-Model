@@ -90,7 +90,7 @@ class dspLoad(MyModel):
     def _Mesh(self):
         MeshPart=MeshModule(self.circleData)
         MeshPart.SeedMatrix(2)
-        MeshPart.SeedByEdge(0.1)
+        MeshPart.SeedByEdge(1,0.5,2)
         MeshPart.MeshType('Particle','TRI','FREE')
         MeshPart.MeshType('Interface','QUAD','SWEEP')
         MeshPart.MeshType('Matrix','QUAD_DOMINATED','FREE')
@@ -114,7 +114,10 @@ class dspLoad(MyModel):
         self._Step()
         self._Load()
         self._Mesh()
-        main_Job.createJob(self.Model,self.jobName,6)
+        job1=JobModule()
+        job1.createJob()
+        
+        
 
     
     def setJobName(self,jobName):
