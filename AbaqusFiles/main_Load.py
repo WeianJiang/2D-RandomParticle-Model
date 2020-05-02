@@ -5,18 +5,22 @@ from ModelModule import MyModel
 
 class LoadModule(MyModel):
 
-        def setPressureLoad(self,InstanceName,load,size,order):
-                a = mdb.models[MyModel._modelName].rootAssembly
-                s1 = a.instances[InstanceName].edges
-                side1Edges1 = s1.findAt(((size/2, size, 0.0), ))
-                region = a.Surface(side1Edges=side1Edges1, name='Surf-'+str(order))
-                mdb.models[MyModel._modelName].Pressure(name='Load-'+str(order), createStepName='Step-'+str(order), 
-                        region=region, distributionType=UNIFORM, field='', magnitude=load, amplitude=UNSET)
+        def _createAMP(self):
+                mdb.models[MyModel._modelName].SmoothStepAmplitude(name='SmooothStepAMP', timeSpan=STEP, 
+                data=((0.0, 0.0), (1.0, 1.0)))
+
+        # def setPressureLoad(self,InstanceName,load,size,order):
+        #         a = mdb.models[MyModel._modelName].rootAssembly
+        #         s1 = a.instances[InstanceName].edges
+        #         side1Edges1 = s1.findAt(((size/2, size, 0.0), ))
+        #         region = a.Surface(side1Edges=side1Edges1, name='Surf-'+str(order))
+        #         mdb.models[MyModel._modelName].Pressure(name='Load-'+str(order), createStepName='Step-'+str(order), 
+        #                 region=region, distributionType=UNIFORM, field='', magnitude=load, amplitude=UNSET)
 
 
-        def setBoundary(self,InstanceName,size,order):
+        def setBoundary(self,size,order):
                 a = mdb.models[MyModel._modelName].rootAssembly
-                e1 = a.instances[InstanceName].edges
+                e1 = a.instances[MyModel._concretePartName].edges
                 edges1 = e1.findAt(((size/2,0, 0.0), ))
                 region = a.Set(edges=edges1, name='Set-'+str(order))
                 mdb.models[MyModel._modelName].DisplacementBC(name='BC-'+str(order), createStepName='Initial', 
@@ -57,15 +61,15 @@ class LoadModule(MyModel):
                 coordinates=(37.5, size, 0.0)), rule=MIDDLE))
                 return r.id
 
-        def setDspLoad(self,partName,dsp,size,order):
-                a = mdb.models[MyModel._modelName].rootAssembly
-                e1 = a.instances[partName].edges
-                edges1 = e1.findAt(((37.5, size, 0.0), ))
-                region = a.Set(edges=edges1, name='Set-BC-Load-'+str(order))
-                mdb.models[MyModel._modelName].DisplacementBC(name='BC-Load-'+str(order), createStepName='Step-'+str(order), 
-                region=region, u1=UNSET, u2=dsp, ur3=UNSET, amplitude=UNSET, fixed=OFF, 
-                distributionType=UNIFORM, fieldName='', localCsys=None)
-                mdb.models[MyModel._modelName].boundaryConditions['BC-Load-'+str(order)].deactivate('Step-'+str(order+1))
+        # def setDspLoad(self,partName,dsp,size,order):
+        #         a = mdb.models[MyModel._modelName].rootAssembly
+        #         e1 = a.instances[partName].edges
+        #         edges1 = e1.findAt(((37.5, size, 0.0), ))
+        #         region = a.Set(edges=edges1, name='Set-BC-Load-'+str(order))
+        #         mdb.models[MyModel._modelName].DisplacementBC(name='BC-Load-'+str(order), createStepName='Step-'+str(order), 
+        #         region=region, u1=UNSET, u2=dsp, ur3=UNSET, amplitude=UNSET, fixed=OFF, 
+        #         distributionType=UNIFORM, fieldName='', localCsys=None)
+        #         mdb.models[MyModel._modelName].boundaryConditions['BC-Load-'+str(order)].deactivate('Step-'+str(order+1))
 
 
         def setReferDspLoad(self,partName,dsp,size,order,id):

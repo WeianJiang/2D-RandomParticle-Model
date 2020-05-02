@@ -9,3 +9,4 @@ class MyModel():
     _sectionHeight=0
     _sectionLength=0
     _concretePartName='ConcreteBlock'
+    _circleNum=0

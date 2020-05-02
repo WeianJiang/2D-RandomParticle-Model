@@ -6,11 +6,11 @@ from ModelModule import MyModel
 
 class AssemblyModule(MyModel):
 
-    def partInst(self,partname):
+    def partInst(self):
         a = mdb.models[MyModel._modelName].rootAssembly
         a.DatumCsysByDefault(CARTESIAN)
-        p = mdb.models[MyModel._modelName].parts[partname]
-        a.Instance(name=partname, part=p, dependent=ON)
+        p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
+        a.Instance(name=MyModel._concretePartName, part=p, dependent=ON)
 
 
     def partTranslate(self,InstanceName,target_x,target_y):

@@ -5,6 +5,10 @@ from ModelModule import MyModel
 
 class PartModule(MyModel):
 
+    def createPart(self,circleData=[]):
+        self._partRectGen()
+        self._partCircleGen(circleData)
+
     def _partRectGen(self):
         s = mdb.models[MyModel._modelName].ConstrainedSketch(name='__profile__', 
         sheetSize=200)
@@ -32,8 +36,8 @@ class PartModule(MyModel):
         s1.setPrimaryObject(option=SUPERIMPOSE)
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         p.projectReferencesOntoSketch(sketch=s1, filter=COPLANAR_EDGES)
-        particleNumbers=len(circleData)
-        for number in range(particleNumbers):
+        AggregateNumbers=len(circleData)
+        for number in range(AggregateNumbers):
             target_x=circleData[number][0]
             target_y=circleData[number][1]
             radi=circleData[number][2]
@@ -54,16 +58,16 @@ class PartModule(MyModel):
         p.PartitionFaceBySketch(faces=pickedFaces, sketch=s1)
         s1.unsetPrimaryObject()
         del mdb.models[MyModel._modelName].sketches['__profile__']
-        #procedure of create particle set
+        #procedure of create Aggregate set
         MatrixTarget=()
-        for i in range(particleNumbers):
+        for i in range(AggregateNumbers):
             target_x=circleData[i][0]
             target_y=circleData[i][1]
             radi=circleData[i][2]
-            ParticleSetTarget=((target_x,target_y,0.0),(target_x+0.75*radi,target_y,0.0))
+            AggregateSetTarget=((target_x,target_y,0.0),(target_x+0.75*radi,target_y,0.0))
             InterfaceSetTarget=((target_x+0.85*radi, target_y, 0.0), )
             MatrixTarget=((target_x+0.95*radi,target_y,0.0),)+MatrixTarget
-            self._createSet('ParticleSet-'+str(i),ParticleSetTarget)
+            self._createSet('AggregateSet-'+str(i),AggregateSetTarget)
             self._createSet('InterfaceSet-'+str(i),InterfaceSetTarget)
         MatrixTarget=((0,0,0),)+MatrixTarget
         self._createSet('MatrixSet',MatrixTarget)

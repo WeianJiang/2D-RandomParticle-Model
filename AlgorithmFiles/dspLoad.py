@@ -1,66 +1,56 @@
-from AbaqusFiles import main_PartGen
-from AbaqusFiles import main_Property
-from AbaqusFiles import main_PartAssem
-from AbaqusFiles import main_Interaction
-from AbaqusFiles import main_Load
-from AbaqusFiles import main_Mesh
-from AbaqusFiles import main_Step
-from AbaqusFiles import main_Job
-import numpy as np
-class dspLoad():
+from AbaqusFiles.main_initial import createModel
+from AbaqusFiles.main_Part import PartModule
+from AbaqusFiles.main_Property import PropertyModule
+from AbaqusFiles.main_Assembly import AssemblyModule
+from AbaqusFiles.main_Step import StepModule
+from AbaqusFiles.main_Load import LoadModule
+from AbaqusFiles.main_Mesh import MeshModule
+from AbaqusFiles.main_Job import JobModule
 
-    def _setImportFile(self,CircleFileName='Circle.txt',InterFaceFileName='ringData.txt',innerCircleFileName='innerCircleData.txt'):
-        self.circleData = np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+CircleFileName)
-        self.CoarseAggregate=[]
-        self.ParticleSet=[]
-        self.interface=[]
-        self.InterfaceSet=[]
-        self.partNumbers=len(self.circleData)
-        for number in range(self.partNumbers):
-            self.CoarseAggregate.append('CoarseAggregate-'+str(number))
-            self.interface.append('interface-'+str(number))
-            self.InterfaceSet.append('InterfaceSet-'+str(number))
-            self.ParticleSet.append('ParticleSet-'+str(number))
+from AbaqusFiles.ModelModule import MyModel
+
+import numpy as np
+class dspLoad(MyModel):
+
+    def _setImportFile(self,CircleFileName='Circle.txt'):
+        self.circleData = np.loadtxt('ModelInfoFiles/'+str(MyModel._path)+'/'+CircleFileName)
+        MyModel._circleNum=len(self.circleData)
 
     
     def _setImportMaterial(self,GraniteElasticFileName='GraniteElastic.txt',InterfaceElasticFileName='interfaceElastic.txt'):
-        self.GraniteElastic=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+GraniteElasticFileName)
-        self.interfaceElastic=np.loadtxt('ModelInfoFiles/'+str(self.path)+'/'+InterfaceElasticFileName)
+        self.GraniteElastic=np.loadtxt('ModelInfoFiles/'+str(MyModel._path)+'/'+GraniteElasticFileName)
+        self.interfaceElastic=np.loadtxt('ModelInfoFiles/'+str(MyModel._path)+'/'+InterfaceElasticFileName)
     
-    def setPath(self,path=1):
-        self.Model='Model-'+str(path)
-        self.path=path
+    def setPath(self,path=1,name='Default'):
+        MyModel._path=path
+        MyModel._modelName='Model-'+str(name)
         self._setImportFile()
         self._setImportMaterial()
-        main_PartGen.createModel(self.Model)
+        createModel()
 
-    def setSize(self,Size=150):
-        self.Size=Size
+    def setSize(self,length,height):
+        MyModel._sectionLength=length
+        MyModel._sectionHeight=height
 
     def _Part(self):#create partition of circles
-        main_PartGen.partRectGen(self.Model,'MainPart',self.Size)
-        main_PartGen.partCircleGen(self.Model,'MainPart',self.circleData)
+        myPart=PartModule()
+        myPart.createPart(self.circleData)
     
     def _Material(self):
-        #first, create material:
-        for number in range(self.partNumbers):
-            main_Property.materialCreate(self.Model,self.CoarseAggregate[number],self.GraniteElastic[number],0.3,2.7e-09)
-            main_Property.materialCreate(self.Model,self.interface[number],self.interfaceElastic[number],0.3,2e-09)
-            main_Property.sectionCreate(self.Model,self.CoarseAggregate[number],self.CoarseAggregate[number])
-            main_Property.sectionCreate(self.Model,self.interface[number],self.interface[number])
-            main_Property.assignSection(self.Model,'MainPart',self.ParticleSet[number],self.CoarseAggregate[number])
-            main_Property.assignSection(self.Model,'MainPart',self.InterfaceSet[number],self.interface[number])
 
-        main_Property.materialCreate(self.Model,'MainPart',23000,0.2,2e-09)#property of mortar
-        main_Property.PLMatCreate(self.Model,'MainPart',self.path)
-    #     main_Property.interfacePLassign(self.Model,self.partNumbers,self.path)
-        main_Property.sectionCreate(self.Model,'MainPart','MainPart')
-        main_Property.assignSection(self.Model,'MainPart','MainPartSet','MainPart')
+        Aggregate=PropertyModule('Aggregate')
+        Aggregate.materialCreate(51246,0.3,2.7e-9)
+
+        Interface=PropertyModule('Interface')
+        Interface.materialCreate(12000,0.2,2e-9)
+
+        Matrix=PropertyModule('Matrix')
+        Matrix.materialCreate(23000,0.2,2e-9)
 
     
     def _Assembly(self):
-        main_PartAssem.partInst(self.Model,'MainPart')
-
+        myAssembly=AssemblyModule()
+        myAssembly.partInst()
 
     
     def _Interaction(self):
@@ -74,7 +64,8 @@ class dspLoad():
     
     def _Step(self):
 
-        main_Step.createStep(self.Model,'Step-1','Initial')
+        Step1=StepModule()
+        Step1.createStep()
         # self.stepNum=1
         # if self.stepNum>1:
         #     for i in range(self.stepNum):
