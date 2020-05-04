@@ -19,10 +19,12 @@ class InteractionModule(MyModel):
         s1 = a.instances['UpperPlate'].edges
         side2Edges1 = s1.findAt(((MyModel._sectionLength/2, MyModel._sectionHeight, 0.0), ))
         region1=a.Surface(side2Edges=side2Edges1, name='UpperPlateSurface')
+
         a = mdb.models[MyModel._modelName].rootAssembly
         s1 = a.instances[MyModel._concretePartName].edges
         side1Edges1 = s1.findAt(((MyModel._sectionLength/2, MyModel._sectionHeight, 0.0), ))
-        region2=a.Surface(side1Edges=side1Edges1, name='UpperPlateSurface')
+        region2=a.Surface(side1Edges=side1Edges1, name='UpperInstanceSurface')
+
         mdb.models[MyModel._modelName].SurfaceToSurfaceContactExp(name ='Upper-Interaction', 
             createStepName='Step-1', master = region1, slave = region2, 
             mechanicalConstraint=PENALTY, sliding=FINITE, 
@@ -32,12 +34,13 @@ class InteractionModule(MyModel):
         #the lower plate
         a = mdb.models[MyModel._modelName].rootAssembly
         s1 = a.instances['LowerPlate'].edges
-        side2Edges1 = s1.findAt(((MyModel._sectionLength/2, 0, 0.0), ))
+        side1Edges1 = s1.findAt(((MyModel._sectionLength/2, 0, 0.0), ))
         region1=a.Surface(side1Edges=side1Edges1, name='LowerPlateSurface')
+
         a = mdb.models[MyModel._modelName].rootAssembly
         s1 = a.instances[MyModel._concretePartName].edges
         side1Edges1 = s1.findAt(((MyModel._sectionLength/2, 0, 0.0), ))
-        region2=a.Surface(side1Edges=side1Edges1, name='LowerPlateSurface')
+        region2=a.Surface(side1Edges=side1Edges1, name='LowerInstanceSurface')
         mdb.models[MyModel._modelName].SurfaceToSurfaceContactExp(name ='Lower-Interaction', 
             createStepName='Step-1', master = region1, slave = region2, 
             mechanicalConstraint=PENALTY, sliding=FINITE, 

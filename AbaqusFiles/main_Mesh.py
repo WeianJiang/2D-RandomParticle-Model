@@ -44,6 +44,11 @@ class MeshModule(MyModel):
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         p.seedPart(size=seedsize, deviationFactor=0.1, minSizeFactor=0.1)
 
+    def SeedLoadingPlate(self,seedsize=20):
+        p = mdb.models[MyModel._modelName].parts['LoadingPlate']
+        p.seedPart(size=seedsize, deviationFactor=0.1, minSizeFactor=0.1)
+        p.generateMesh()
+
 
     def MeshType(self,part,meshtype='TRI',technq='FREE'):
         '''

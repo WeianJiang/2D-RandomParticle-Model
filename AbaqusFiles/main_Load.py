@@ -55,7 +55,7 @@ class LoadModule(MyModel):
 
 
         def _createAMP(self):
-                mdb.models[MyModel._modelName].SmoothStepAmplitude(name='SmooothStepAMP', timeSpan=STEP, 
+                mdb.models[MyModel._modelName].SmoothStepAmplitude(name='SmoothStepAMP', timeSpan=STEP, 
                 data=((0.0, 0.0), (1.0, 1.0)))
 
         # def setPressureLoad(self,InstanceName,load,size,order):
@@ -67,14 +67,12 @@ class LoadModule(MyModel):
         #                 region=region, distributionType=UNIFORM, field='', magnitude=load, amplitude=UNSET)
 
 
-        def setBoundary(self,order):
-a = mdb.models['Model-Default'].rootAssembly
-r1 = a.referencePoints
-refPoints1=(r1[24], )
-region = a.Set(referencePoints=refPoints1, name='Set-9')
-mdb.models['Model-Default'].DisplacementBC(name='BC-4', 
-    createStepName='Initial', region=region, u1=SET, u2=SET, ur3=SET, 
-    amplitude=UNSET, distributionType=UNIFORM, fieldName='', localCsys=None)
+        def _setBoundary(self):
+                a = mdb.models[MyModel._modelName].rootAssembly
+                region = a.sets['RefPoint-LowerPlate']
+                mdb.models[MyModel._modelName].DisplacementBC(name='Boundary', 
+                createStepName='Initial', region=region, u1=SET, u2=SET, ur3=SET, 
+                amplitude=UNSET, distributionType=UNIFORM, fieldName='', localCsys=None)
 
                 # edges2 = e1.findAt(((75,size, 0.0), ))
                 # region2 = a.Set(edges=edges2, name='Set-'+str(order+1))
@@ -107,8 +105,10 @@ mdb.models['Model-Default'].DisplacementBC(name='BC-4',
                 a = mdb.models[MyModel._modelName].rootAssembly
                 e1 = a.instances[instanceName].edges
                 r=a.ReferencePoint(point=a.instances[instanceName].InterestingPoint(edge=e1.findAt(
-                coordinates=MyModel._sectionLength/2, height, 0)), rule=MIDDLE))
-                a.Set(referencePoints=r, name='RefPoint-'+instanceName)
+                coordinates=(MyModel._sectionLength/2, height, 0)), rule=MIDDLE))
+                r1 = a.referencePoints
+                refPoints1=(r1.findAt([0.5*MyModel._sectionLength, height, 0]),)
+                a.Set(referencePoints=refPoints1, name='RefPoint-'+instanceName)
                 return r.id
 
         # def setDspLoad(self,partName,dsp,size,order):
@@ -122,7 +122,7 @@ mdb.models['Model-Default'].DisplacementBC(name='BC-4',
         #         mdb.models[MyModel._modelName].boundaryConditions['BC-Load-'+str(order)].deactivate('Step-'+str(order+1))
 
 
-        def setReferDspLoad(self,dsp,order,id):
+        def setReferDspLoad(self,dsp):
 
                 self._createLoadingPlate()
 
@@ -130,10 +130,12 @@ mdb.models['Model-Default'].DisplacementBC(name='BC-4',
                 region = a.sets['RefPoint-UpperPlate']
 
                 self._createAMP()
-                mdb.models['Model-Default'].DisplacementBC(name='Loading', 
+                mdb.models[MyModel._modelName].DisplacementBC(name='Loading', 
                 createStepName='Step-1', region=region, u1=0.0, u2=dsp, ur3=0.0, 
                 amplitude='SmoothStepAMP', fixed=OFF, distributionType=UNIFORM, fieldName='', 
                 localCsys=None)
+
+                self._setBoundary()
 
 
                 # a = mdb.models[MyModel._modelName].rootAssembly
