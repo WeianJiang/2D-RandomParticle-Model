@@ -1,7 +1,8 @@
 import numpy as np
 
 
-size=200
+length=200
+height=900
 
 def drawCircle(centroid_x, centroid_y, radi):  # draw circles by given parameters, in which order is useless
     import matplotlib.pyplot as plt
@@ -12,7 +13,7 @@ def drawCircle(centroid_x, centroid_y, radi):  # draw circles by given parameter
 
 
 def boudaryDetect(x, y, r):  # Funtion used to detect whether the circle cross the boundry
-    if x-r > 5 and y-r > 5 and x+r < size -5 and y+r < size-5:
+    if x-r > 5 and y-r > 5 and x+r < length -5 and y+r < height-5:
         return True
 
 
@@ -24,8 +25,8 @@ def overlapDetect(x1, y1, r1, x2, y2, r2):
 
 
 def dataGen(minimumRadi,maximumRadi):  # generate parameters of circle
-    centroid_x = np.random.rand()*size
-    centroid_y = np.random.rand()*size
+    centroid_x = np.random.rand()*length
+    centroid_y = np.random.rand()*height
     radi = np.random.uniform(minimumRadi, maximumRadi)
     if boudaryDetect(centroid_x, centroid_y, radi):
         return [centroid_x, centroid_y, radi]
@@ -37,7 +38,7 @@ def areaRatio(circleArray):
     area=0
     for i in range(len(circleArray)):
         area = 3.14*circleArray[i][2]**2 + area
-    return area/size/size
+    return area/length/height
 
 
 def overlapCounting(circleArray):
@@ -79,8 +80,8 @@ def circleGenerator(trialTimes,minimumRadi,maximumRadi,circleData=[]):
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
-    fig = plt.figure(figsize=(6, 6), dpi=100)
-    plt.axis([0, size, 0, size])
+    fig = plt.figure(figsize=(length/50, height/50), dpi=100)
+    plt.axis([0, length, 0, height])
     #print dataGen()
     ratio=0
     while ratio<0.4:
