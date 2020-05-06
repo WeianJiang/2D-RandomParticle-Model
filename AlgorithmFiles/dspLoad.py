@@ -17,15 +17,15 @@ class dspLoad(MyModel):
         MyModel._circleNum=len(self.circleData)
 
     
-    def _setImportMaterial(self,GraniteElasticFileName='GraniteElastic.txt',InterfaceElasticFileName='interfaceElastic.txt'):
-        self.GraniteElastic=np.loadtxt('ModelInfoFiles/'+str(MyModel._path)+'/'+GraniteElasticFileName)
-        self.interfaceElastic=np.loadtxt('ModelInfoFiles/'+str(MyModel._path)+'/'+InterfaceElasticFileName)
+    # def _setImportMaterial(self,GraniteElasticFileName='GraniteElastic.txt',InterfaceElasticFileName='interfaceElastic.txt'):
+    #     self.GraniteElastic=np.loadtxt('ModelInfoFiles/'+str(MyModel._path)+'/'+GraniteElasticFileName)
+    #     self.interfaceElastic=np.loadtxt('ModelInfoFiles/'+str(MyModel._path)+'/'+InterfaceElasticFileName)
     
     def setPath(self,path=1,name='Default'):
         MyModel._path=path
         MyModel._modelName='Model-'+str(name)
         self._setImportFile()
-        self._setImportMaterial()
+        # self._setImportMaterial()
         createModel()
 
     def setSize(self,length,height):

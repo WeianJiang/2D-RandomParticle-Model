@@ -12,8 +12,8 @@ from AlgorithmFiles import dspLoad
 
 
 Model=dspLoad.dspLoad()
-Model.setSize(150,150)
-Model.setPath(14,'Model-150-14')
+Model.setSize(200,200)
+Model.setPath(2,'200-2-1')
 Model.setLoadDsp(-4)
 
 

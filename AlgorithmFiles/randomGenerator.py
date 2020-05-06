@@ -7,4 +7,4 @@ def weibullGenrator(shapeM,scale):
 
 
 if __name__=='__main__':
-    print weibullGenrator(10,480000)
+    print(weibullGenrator(10,480000))

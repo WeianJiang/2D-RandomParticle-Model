@@ -82,10 +82,14 @@ if __name__ == "__main__":
     fig = plt.figure(figsize=(6, 6), dpi=100)
     plt.axis([0, size, 0, size])
     #print dataGen()
-    circleData=circleGenerator(200,8,10)
-    circleData=circleGenerator(10000,5,8,circleData)
-    circleData=np.array(circleData)
-    np.savetxt('Circle.txt',circleData)
+    ratio=0
+    while ratio<0.4:
+
+        circleData=circleGenerator(200,8,10)
+        circleData=circleGenerator(10000,5,8,circleData)
+        circleData=np.array(circleData)
+        np.savetxt('Circle.txt',circleData)
+        ratio=areaRatio(circleData)
 
     circleData=np.loadtxt('Circle.txt')
     # with open('file.txt','w') as f:
@@ -93,7 +97,7 @@ if __name__ == "__main__":
     import materialGenerator
     #materialGenerator.ElasticGenerator('Granite',60)
     #print overlapCounting(circleData)
-    print areaRatio(circleData)
+    print(areaRatio(circleData))
     for i in range(len(circleData)):  # draw module
         # "*" used for transfer three parameters in one
         drawCircle(circleData[i][0],circleData[i][1],circleData[i][2])
