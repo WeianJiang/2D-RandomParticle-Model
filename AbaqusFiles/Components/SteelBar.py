@@ -16,7 +16,7 @@ class SteelBar_module(MyModel):
             sheetSize=200.0)
         g, v, d, c = s.geometry, s.vertices, s.dimensions, s.constraints
         s.setPrimaryObject(option=STANDALONE)
-        s.Line(point1=(-58.75, 0.0), point2=(45.0, 0.0))
+        s.Line(point1=(-(MyModel._sectionLength/2-self.coverThickness), 0.0), point2=(MyModel._sectionLength/2-self.coverThickness, 0.0))
         s.HorizontalConstraint(entity=g[2], addUndoState=False)
         p = mdb.models[MyModel._modelName].Part(name='Part-1', dimensionality=TWO_D_PLANAR, 
             type=DEFORMABLE_BODY)

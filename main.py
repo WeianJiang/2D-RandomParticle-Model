@@ -13,8 +13,8 @@ from AlgorithmFiles import dspLoad
 
 Model=dspLoad.dspLoad()
 Model.setSize(150,150)
-Model.setPath(5,'150-5-1')
-Model.setLoadDsp(-4)
+Model.setPath(6,'150-6-1')
+Model.setLoadDsp(-2)
 
 
 # def createMeshModel(ModelPath=1,size=150,Load=-0.2,Job_name='Job-Test'):

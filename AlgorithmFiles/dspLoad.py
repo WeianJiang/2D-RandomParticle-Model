@@ -42,10 +42,10 @@ class dspLoad(MyModel):
         Aggregate.materialCreate(51246,0.3,2.7e-9)
 
         Interface=PropertyModule('Interface')
-        Interface.materialCreate(12000,0.2,2e-9)
+        Interface.materialCreate(200000,0.2,2e-9)
 
         Matrix=PropertyModule('Matrix')
-        Matrix.materialCreate(23000,0.2,2e-9)
+        Matrix.materialCreate(200000,0.2,2e-9)
 
     
     def _Assembly(self):
@@ -85,7 +85,7 @@ class dspLoad(MyModel):
     def _Mesh(self):
         MeshPart=MeshModule(self.circleData)
         MeshPart.SeedMatrix(5)
-        MeshPart.SeedByEdge(5,0.5,2)
+        MeshPart.SeedByEdge(3,0.5,2)
         MeshPart.MeshType('Particle','QUAD','FREE')
         MeshPart.MeshType('Interface','TRI','FREE')
         MeshPart.MeshType('Matrix','QUAD','FREE')
