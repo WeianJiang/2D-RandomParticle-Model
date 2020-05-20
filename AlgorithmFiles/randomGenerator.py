@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 def weibullGenrator(shapeM,scale):
     return scale * np.random.weibull(shapeM)
@@ -7,4 +7,4 @@ def weibullGenrator(shapeM,scale):
 
 
 if __name__=='__main__':
-    print weibullGenrator(10,480000)
+    print(weibullGenrator(10,480000))

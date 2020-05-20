@@ -1,7 +1,8 @@
 import numpy as np
 
 
-size=150
+length=200
+height=900
 
 def drawCircle(centroid_x, centroid_y, radi):  # draw circles by given parameters, in which order is useless
     import matplotlib.pyplot as plt
@@ -12,20 +13,20 @@ def drawCircle(centroid_x, centroid_y, radi):  # draw circles by given parameter
 
 
 def boudaryDetect(x, y, r):  # Funtion used to detect whether the circle cross the boundry
-    if x-r > 0 and y-r > 0 and x+r < size and y+r < size:
+    if x-r > 5 and y-r > 5 and x+r < length -5 and y+r < height-5:
         return True
 
 
 # Function to detect the position relatioship between two circles
 def overlapDetect(x1, y1, r1, x2, y2, r2):
     distanceSquare = np.square(x1-x2)+np.square(y1-y2)
-    if distanceSquare < (r1+r2)**2:
+    if distanceSquare  < (r1+r2)**2 +50:
         return True  # return ture if overlap
 
 
 def dataGen(minimumRadi,maximumRadi):  # generate parameters of circle
-    centroid_x = np.random.rand()*size
-    centroid_y = np.random.rand()*size
+    centroid_x = np.random.rand()*length
+    centroid_y = np.random.rand()*height
     radi = np.random.uniform(minimumRadi, maximumRadi)
     if boudaryDetect(centroid_x, centroid_y, radi):
         return [centroid_x, centroid_y, radi]
@@ -37,7 +38,7 @@ def areaRatio(circleArray):
     area=0
     for i in range(len(circleArray)):
         area = 3.14*circleArray[i][2]**2 + area
-    return area/150/150
+    return area/length/height
 
 
 def overlapCounting(circleArray):
@@ -79,13 +80,17 @@ def circleGenerator(trialTimes,minimumRadi,maximumRadi,circleData=[]):
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
-    fig = plt.figure(figsize=(6, 6), dpi=100)
-    plt.axis([0, size, 0, size])
+    fig = plt.figure(figsize=(length/50, height/50), dpi=100)
+    plt.axis([0, length, 0, height])
     #print dataGen()
-    circleData=circleGenerator(200,8,10)
-    circleData=circleGenerator(2000,3,8,circleData)
-    circleData=np.array(circleData)
-    np.savetxt('Circle.txt',circleData)
+    ratio=0
+    while ratio<0.4:
+
+        circleData=circleGenerator(200,8,10)
+        circleData=circleGenerator(10000,5,8,circleData)
+        circleData=np.array(circleData)
+        np.savetxt('Circle.txt',circleData)
+        ratio=areaRatio(circleData)
 
     circleData=np.loadtxt('Circle.txt')
     # with open('file.txt','w') as f:
@@ -93,7 +98,7 @@ if __name__ == "__main__":
     import materialGenerator
     #materialGenerator.ElasticGenerator('Granite',60)
     #print overlapCounting(circleData)
-    #print areaRatio(circleData)
+    print(areaRatio(circleData))
     for i in range(len(circleData)):  # draw module
         # "*" used for transfer three parameters in one
         drawCircle(circleData[i][0],circleData[i][1],circleData[i][2])
