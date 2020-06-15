@@ -9,6 +9,12 @@ class SteelBar_module(MyModel):
         self.coverThickness=coverThickness
         self.enlargement=enlargement
         self.nonEnlargement=nonEnlargement
+    
+    def setNumberofLongui(self,numberofLongui):
+        self.numberofLongui=numberofLongui
+    
+    def setSpacingofStir(self,spacingofStir):
+        self.spacingofStir=spacingofStir
 
     def longiBarGeneration(self):
         pass
@@ -34,7 +40,7 @@ class SteelBar_module(MyModel):
         s.setPrimaryObject(option=STANDALONE)
         s.Line(point1=(0,0), point2=(0,MyModel._sectionHeight))
         s.HorizontalConstraint(entity=g[2], addUndoState=False)
-        p = mdb.models[MyModel._modelName].Part(name='stir', dimensionality=TWO_D_PLANAR, 
+        p = mdb.models[MyModel._modelName].Part(name='longuiBar', dimensionality=TWO_D_PLANAR, 
             type=DEFORMABLE_BODY)
         # p = mdb.models['Model-1'].parts['Part-1']
         # p.BaseWire(sketch=s)
@@ -43,3 +49,8 @@ class SteelBar_module(MyModel):
 
     
     def _steelBarAssembly(self):
+        a = mdb.models[MyModel._modelName].rootAssembly
+        p = mdb.models[MyModel._modelName].parts['longuiBar']
+        for i in range(self.numberofLongui):
+            a.Instance(name='longuiBar-'+str(i), part=p, dependent=ON)
+            a.translate(instanceList=('longuiBar-'+str(i), ), vector=(250.0,0.0, 0.0))
