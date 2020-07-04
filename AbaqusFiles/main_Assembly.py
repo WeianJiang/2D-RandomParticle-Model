@@ -1,6 +1,8 @@
 from abaqus import *
 from abaqusConstants import *
 
+from AbaqusFiles.Components.SteelBar import SteelBar_module
+
 from ModelModule import MyModel
 
 
@@ -12,6 +14,7 @@ class AssemblyModule(MyModel):
         p = mdb.models[MyModel._modelName].parts[MyModel._concretePartName]
         a.Instance(name=MyModel._concretePartName, part=p, dependent=ON)
 
+        
 
     def partTranslate(self,InstanceName,target_x,target_y):
         a = mdb.models[MyModel._modelName].rootAssembly

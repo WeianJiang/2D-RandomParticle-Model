@@ -6,6 +6,7 @@ from AbaqusFiles.main_Step import StepModule
 from AbaqusFiles.main_Load import LoadModule
 from AbaqusFiles.main_Mesh import MeshModule
 from AbaqusFiles.main_Job import JobModule
+from AbaqusFiles.Components.SteelBar import SteelBar_module
 
 from AbaqusFiles.ModelModule import MyModel
 
@@ -51,6 +52,14 @@ class dspLoad(MyModel):
     def _Assembly(self):
         myAssembly=AssemblyModule()
         myAssembly.partInst()
+
+        steelbars=SteelBar_module(10)
+        steelbars.setEnlargementofStirrup(200,500)
+        steelbars.setNumberofLongui(5)
+        steelbars.setSpacingofStir(43,86)
+        steelbars.setStirrupMate(4,235)
+        steelbars.setLonguiBarMate(10,335)
+
 
     
     def _Interaction(self):
