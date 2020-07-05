@@ -76,7 +76,7 @@ class SteelBar_module(MyModel):
 
         
         for j in range(numberofNonenlargeStirrup):
-            a.Instance(name='stirrupNonEng-'+str(i+j+1), part=p, dependent=ON)
+            a.Instance(name='stirrup-'+str(i+j+1), part=p, dependent=ON)
             a.translate(instanceList=('stirrup-'+str(i+j+1), ), vector=(self.coverThickness,stirHeight, 0.0))
             stirHeight+=self.nonEnlargementSpacingofStir
 
@@ -86,6 +86,13 @@ class SteelBar_module(MyModel):
             a.translate(instanceList=('stirrup-'+str(i+j+k+1), ), vector=(self.coverThickness,stirHeight, 0.0))
             stirHeight+=self.enlargementSpacingofStir
 
+        #create set
+        
+        edges0 = a.instances['stirrup-0'].edges.getSequenceFromMask(mask=('[#1 ]', ), )
+        edges=edges0
+        for i in range(1,numberofEnlargeStirrup+numberofNonenlargeStirrup):
+            edges=edges+a.instances['stirrup-'+str(i)].edges.getSequenceFromMask(mask=('[#1 ]', ), )
+            a.Set(edges=edges, name='RebarSet')
     
     def setStirrupMate(self,di,yieldStrng):
         mdb.models[MyModel._modelName].Material(name='stirrup')
