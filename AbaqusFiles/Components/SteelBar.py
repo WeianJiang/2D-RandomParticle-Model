@@ -82,17 +82,21 @@ class SteelBar_module(MyModel):
 
         
         for k in range(numberofEnlargeStirrup-1):
-            a.Instance(name='stirrup-'+str(i+j+k+1), part=p, dependent=ON)
-            a.translate(instanceList=('stirrup-'+str(i+j+k+1), ), vector=(self.coverThickness,stirHeight, 0.0))
+            a.Instance(name='stirrup-'+str(i+j+k+2), part=p, dependent=ON)
+            a.translate(instanceList=('stirrup-'+str(i+j+k+2), ), vector=(self.coverThickness,stirHeight, 0.0))
             stirHeight+=self.enlargementSpacingofStir
 
         #create set
         
         edges0 = a.instances['stirrup-0'].edges.getSequenceFromMask(mask=('[#1 ]', ), )
         edges=edges0
-        for i in range(1,numberofEnlargeStirrup+numberofNonenlargeStirrup):
+        for i in range(1,numberofEnlargeStirrup+2*numberofNonenlargeStirrup-2):
             edges=edges+a.instances['stirrup-'+str(i)].edges.getSequenceFromMask(mask=('[#1 ]', ), )
-            a.Set(edges=edges, name='RebarSet')
+        
+        for i in range(self.numberofLongui):
+            edges=edges+a.instances['longuiBar-'+str(i)].edges.getSequenceFromMask(mask=('[#1 ]', ), )
+        
+        a.Set(edges=edges, name='RebarSet')
     
     def setStirrupMate(self,di,yieldStrng):
         mdb.models[MyModel._modelName].Material(name='stirrup')
@@ -100,17 +104,17 @@ class SteelBar_module(MyModel):
         mdb.models[MyModel._modelName].materials['stirrup'].Elastic(table=((210000.0, 0.3), ))
         mdb.models[MyModel._modelName].materials['stirrup'].Plastic(table=((yieldStrng, 0.0), ))
 
-        mdb.models[MyModel._modelName].CircularProfile(name='strrup', r=di/2)
-        mdb.models[MyModel._modelName].BeamSection(name='strrup', 
-            integration=DURING_ANALYSIS, poissonRatio=0.0, profile='strrup', 
-            material='strrup', temperatureVar=LINEAR, consistentMassMatrix=False)
+        mdb.models[MyModel._modelName].CircularProfile(name='stirrup', r=di/2)
+        mdb.models[MyModel._modelName].BeamSection(name='stirrup', 
+            integration=DURING_ANALYSIS, poissonRatio=0.0, profile='stirrup', 
+            material='stirrup', temperatureVar=LINEAR, consistentMassMatrix=False)
 
         p = mdb.models[MyModel._modelName].parts['stirrup']
         e = p.edges
         edges = e.getSequenceFromMask(mask=('[#1 ]', ), )
         region = p.Set(edges=edges, name='Set-stirrup')
         p = mdb.models[MyModel._modelName].parts['stirrup']
-        p.SectionAssignment(region=region, sectionName='strrup', offset=0.0, 
+        p.SectionAssignment(region=region, sectionName='stirrup', offset=0.0, 
             offsetType=MIDDLE_SURFACE, offsetField='', 
             thicknessAssignment=FROM_SECTION)
         p = mdb.models[MyModel._modelName].parts['stirrup']
