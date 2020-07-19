@@ -13,6 +13,8 @@ from AbaqusFiles.ModelModule import MyModel
 import numpy as np
 class dspLoad(MyModel):
 
+    setReinforcement=False
+
     def _setImportFile(self,CircleFileName='Circle.txt'):
         self.circleData = np.loadtxt('ModelInfoFiles/'+str(MyModel._path)+'/'+CircleFileName)
         MyModel._circleNum=len(self.circleData)
@@ -32,6 +34,7 @@ class dspLoad(MyModel):
     def setSize(self,length,height):
         MyModel._sectionLength=length
         MyModel._sectionHeight=height
+
 
     def _Part(self):#create partition of circles
         myPart=PartModule()
@@ -53,12 +56,13 @@ class dspLoad(MyModel):
         myAssembly=AssemblyModule()
         myAssembly.partInst()
 
-        steelbars=SteelBar_module(10)
-        steelbars.setEnlargementofStirrup(200,500)
-        steelbars.setNumberofLongui(5)
-        steelbars.setSpacingofStir(43,86)
-        steelbars.setStirrupMate(4,235)
-        steelbars.setLonguiBarMate(10,335)
+        if self.setReinforcement:
+            steelbars=SteelBar_module(10)
+            steelbars.setEnlargementofStirrup(200,500)
+            steelbars.setNumberofLongui(5)
+            steelbars.setSpacingofStir(43,86)
+            steelbars.setStirrupMate(4,235)
+            steelbars.setLonguiBarMate(10,335)
 
 
     
