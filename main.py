@@ -13,8 +13,8 @@ from AlgorithmFiles import dspLoad
 
 Model=dspLoad.dspLoad()
 Model.setReinforcement=False
-Model.setSize(200,900)
-Model.setPath(4,'200900-4-1')
+Model.setSize(150,150)
+Model.setPath(7,'150-7-1')
 Model.setLoadDsp(-2)
 
 
