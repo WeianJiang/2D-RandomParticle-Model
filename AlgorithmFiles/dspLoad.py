@@ -46,10 +46,10 @@ class dspLoad(MyModel):
         Aggregate.materialCreate(51246,0.3,2.7e-9)
 
         Interface=PropertyModule('Interface')
-        Interface.materialCreate(200000,0.2,2e-9)
+        Interface.materialCreate(2.56E+04,0.2,2e-9)
 
         Matrix=PropertyModule('Matrix')
-        Matrix.materialCreate(200000,0.2,2e-9)
+        Matrix.materialCreate(3.29E+04,0.2,2e-9)
 
     
     def _Assembly(self):

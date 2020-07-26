@@ -86,12 +86,14 @@ class PropertyModule(MyModel):
     def _setCDPinfo(self):
 
         import numpy as np
-        Compress=np.loadtxt('Constitution/'+str(MyModel._path)+'/Compression.txt')
-        Tensile=np.loadtxt('Constitution/'+str(MyModel._path)+'/Tension.txt')
-        TensionDamage=np.loadtxt('Constitution/'+str(MyModel._path)+'/TensionDamage.txt')
-        CompressionDamage=np.loadtxt('Constitution/'+str(MyModel._path)+'/CompressionDamage.txt')
+
 
         if self._materialName=='Interface':
+
+            Compress=np.loadtxt('Constitution/'+str(MyModel._path)+'/Interface_Compression.txt')
+            Tensile=np.loadtxt('Constitution/'+str(MyModel._path)+'/Interface_Tension.txt')
+            TensionDamage=np.loadtxt('Constitution/'+str(MyModel._path)+'/Interface_TensionDamage.txt')
+            CompressionDamage=np.loadtxt('Constitution/'+str(MyModel._path)+'/Interface_CompressionDamage.txt')
 
             for i in range(MyModel._circleNum):
                 
@@ -110,18 +112,23 @@ class PropertyModule(MyModel):
         
         elif self._materialName=='Matrix':
 
-                materialName=self._materialName
+            Compress=np.loadtxt('Constitution/'+str(MyModel._path)+'/Matrix_Compression.txt')
+            Tensile=np.loadtxt('Constitution/'+str(MyModel._path)+'/Matrix_Tension.txt')
+            TensionDamage=np.loadtxt('Constitution/'+str(MyModel._path)+'/Matrix_TensionDamage.txt')
+            CompressionDamage=np.loadtxt('Constitution/'+str(MyModel._path)+'/Matrix_CompressionDamage.txt')
 
-                mdb.models[MyModel._modelName].materials[materialName].ConcreteDamagedPlasticity(table=((
-                38.0, 0.1, 1.16, 0.667, 0.0), ))
-                mdb.models[MyModel._modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
-                table=(Compress))
-                mdb.models[MyModel._modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
-                table=(Tensile),type=STRAIN)
-                mdb.models[MyModel._modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionDamage(
-                table=TensionDamage, type=STRAIN) 
-                mdb.models[MyModel._modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionDamage(
-                table=CompressionDamage) 
+            materialName=self._materialName
+
+            mdb.models[MyModel._modelName].materials[materialName].ConcreteDamagedPlasticity(table=((
+            38.0, 0.1, 1.16, 0.667, 0.0), ))
+            mdb.models[MyModel._modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionHardening(
+            table=(Compress))
+            mdb.models[MyModel._modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionStiffening(
+            table=(Tensile),type=STRAIN)
+            mdb.models[MyModel._modelName].materials[materialName].concreteDamagedPlasticity.ConcreteTensionDamage(
+            table=TensionDamage, type=STRAIN) 
+            mdb.models[MyModel._modelName].materials[materialName].concreteDamagedPlasticity.ConcreteCompressionDamage(
+            table=CompressionDamage) 
 
 
     # def interfacePLassign(self,interfaceNumbers,ModelPathNumber):
