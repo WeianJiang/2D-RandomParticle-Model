@@ -95,10 +95,10 @@ class dspLoad(MyModel):
         self.loadDsp=loadDsp
         self._Job()
 
-    def _Mesh(self):
+    def _Mesh(self):#apply mesh control here
         MeshPart=MeshModule(self.circleData)
-        MeshPart.SeedMatrix(5)
-        MeshPart.SeedByEdge(5,5,5)
+        MeshPart.SeedMatrix(3)
+        MeshPart.SeedByEdge(3,3,3)
         MeshPart.MeshType('Particle','TRI','FREE')
         MeshPart.MeshType('Interface','TRI','FREE')
         MeshPart.MeshType('Matrix','TRI','FREE')
