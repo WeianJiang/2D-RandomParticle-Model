@@ -65,26 +65,32 @@ class SteelBar_module(MyModel):
 
         #now assembly the stirrup
         p = mdb.models[MyModel._modelName].parts['stirrup']
-        numberofEnlargeStirrup=self.enlargement/self.enlargementSpacingofStir+1
-        numberofNonenlargeStirrup=self.nonEnlargement/self.nonEnlargementSpacingofStir+1
-        stirHeight=self.coverThickness
+        numberofEnlargeStirrup=self.enlargement/self.enlargementSpacingofStir
+        numberofNonenlargeStirrup=self.nonEnlargement/self.nonEnlargementSpacingofStir-1
+        #stirHeight=self.coverThickness
+        stirHeight=0
 
         for i in range(numberofEnlargeStirrup):
+            stirHeight+=self.enlargementSpacingofStir
             a.Instance(name='stirrup-'+str(i), part=p, dependent=ON)
             a.translate(instanceList=('stirrup-'+str(i), ), vector=(self.coverThickness,stirHeight, 0.0))
-            stirHeight+=self.enlargementSpacingofStir
+
 
         
         for j in range(numberofNonenlargeStirrup):
+            stirHeight+=self.nonEnlargementSpacingofStir
             a.Instance(name='stirrup-'+str(i+j+1), part=p, dependent=ON)
             a.translate(instanceList=('stirrup-'+str(i+j+1), ), vector=(self.coverThickness,stirHeight, 0.0))
-            stirHeight+=self.nonEnlargementSpacingofStir
+            if j == numberofNonenlargeStirrup - 1:
+                stirHeight+=self.nonEnlargementSpacingofStir
+            
 
         
-        for k in range(numberofEnlargeStirrup-1):
+        for k in range(numberofEnlargeStirrup):
             a.Instance(name='stirrup-'+str(i+j+k+2), part=p, dependent=ON)
             a.translate(instanceList=('stirrup-'+str(i+j+k+2), ), vector=(self.coverThickness,stirHeight, 0.0))
             stirHeight+=self.enlargementSpacingofStir
+
 
         #create set
         
