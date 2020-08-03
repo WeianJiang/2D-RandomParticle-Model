@@ -96,7 +96,7 @@ class SteelBar_module(MyModel):
         
         edges0 = a.instances['stirrup-0'].edges.getSequenceFromMask(mask=('[#1 ]', ), )
         edges=edges0
-        for i in range(1,numberofEnlargeStirrup+2*numberofNonenlargeStirrup-2):
+        for i in range(1,numberofEnlargeStirrup+2*numberofNonenlargeStirrup+2):
             edges=edges+a.instances['stirrup-'+str(i)].edges.getSequenceFromMask(mask=('[#1 ]', ), )
         
         for i in range(self.numberofLongui):
@@ -111,6 +111,7 @@ class SteelBar_module(MyModel):
         mdb.models[MyModel._modelName].materials['stirrup'].Plastic(table=((yieldStrng, 0.0), ))
 
         mdb.models[MyModel._modelName].CircularProfile(name='stirrup', r=di/2)
+        #mdb.models[MyModel._modelName].TrussSection(name='stirrup', material='stirrup', area=3.14*(di/2)**2)
         mdb.models[MyModel._modelName].BeamSection(name='stirrup', 
             integration=DURING_ANALYSIS, poissonRatio=0.0, profile='stirrup', 
             material='stirrup', temperatureVar=LINEAR, consistentMassMatrix=False)

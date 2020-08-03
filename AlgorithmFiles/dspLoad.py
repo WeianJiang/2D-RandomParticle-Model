@@ -58,11 +58,19 @@ class dspLoad(MyModel):
 
         if self.setReinforcement:
             steelbars=SteelBar_module(10)
-            steelbars.setEnlargementofStirrup(200,500)
-            steelbars.setNumberofLongui(5)
-            steelbars.setSpacingofStir(43,86)
-            steelbars.setStirrupMate(4,235)
+            steelbars.setEnlargementofStirrup(225,450)
+            steelbars.setNumberofLongui(2)
+            steelbars.setSpacingofStir(32.14,75)
+            steelbars.setStirrupMate(6,235)
             steelbars.setLonguiBarMate(10,335)
+
+        # if self.setReinforcement:
+        #     steelbars=SteelBar_module(10)
+        #     steelbars.setEnlargementofStirrup(225,450)
+        #     steelbars.setNumberofLongui(6)
+        #     steelbars.setSpacingofStir(32.14,75)
+        #     steelbars.setStirrupMate(6,235)
+        #     steelbars.setLonguiBarMate(10,335)
 
 
     
@@ -97,11 +105,11 @@ class dspLoad(MyModel):
 
     def _Mesh(self):#apply mesh control here
         MeshPart=MeshModule(self.circleData)
-        MeshPart.SeedMatrix(3)
-        MeshPart.SeedByEdge(3,3,3)
+        MeshPart.SeedMatrix(4)
+        MeshPart.SeedByEdge(3,2,5)
         MeshPart.MeshType('Particle','TRI','FREE')
         MeshPart.MeshType('Interface','TRI','FREE')
-        MeshPart.MeshType('Matrix','TRI','FREE')
+        MeshPart.MeshType('Matrix','QUAD','FREE')
         MeshPart.SeedLoadingPlate(20)
         # MeshPart.MeshType('Interface','QUAD','SWEEP')
         # MeshPart.MeshType('Matrix','QUAD_DOMINATED','FREE')
