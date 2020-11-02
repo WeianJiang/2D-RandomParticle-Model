@@ -43,7 +43,8 @@ class SteelBar_module(MyModel):
             sheetSize=200.0)
         g, v, d, c = s.geometry, s.vertices, s.dimensions, s.constraints
         s.setPrimaryObject(option=STANDALONE)
-        s.Line(point1=(0,0), point2=(0,MyModel._sectionHeight))
+        s.Line(point1=(0,0), point2=(0,MyModel._sectionHeight-self.coverThickness*2))
+        #s.Line(point1=(0,0), point2=(0,MyModel._sectionHeight))
         s.VerticalConstraint(entity=g[2], addUndoState=False)
         p = mdb.models[MyModel._modelName].Part(name='longuiBar', dimensionality=TWO_D_PLANAR, 
             type=DEFORMABLE_BODY)
@@ -60,20 +61,23 @@ class SteelBar_module(MyModel):
         spacing=self.coverThickness
         for i in range(self.numberofLongui):
             a.Instance(name='longuiBar-'+str(i), part=p, dependent=ON)
-            a.translate(instanceList=('longuiBar-'+str(i), ), vector=(spacing,0.0, 0.0))
+            a.translate(instanceList=('longuiBar-'+str(i), ), vector=(spacing,self.coverThickness, 0.0))
+            #a.translate(instanceList=('longuiBar-'+str(i), ), vector=(spacing,0.0, 0.0))
             spacing+=spacingofLongui
 
         #now assembly the stirrup
         p = mdb.models[MyModel._modelName].parts['stirrup']
-        numberofEnlargeStirrup=self.enlargement/self.enlargementSpacingofStir
+        numberofEnlargeStirrup=round(self.enlargement/self.enlargementSpacingofStir)
         numberofNonenlargeStirrup=self.nonEnlargement/self.nonEnlargementSpacingofStir-1
-        #stirHeight=self.coverThickness
-        stirHeight=0
+        stirHeight=self.coverThickness
+        #stirHeight=0
 
-        for i in range(numberofEnlargeStirrup):
-            stirHeight+=self.enlargementSpacingofStir
+        for i in range(int(numberofEnlargeStirrup+1)):
+            
             a.Instance(name='stirrup-'+str(i), part=p, dependent=ON)
             a.translate(instanceList=('stirrup-'+str(i), ), vector=(self.coverThickness,stirHeight, 0.0))
+            if i < numberofEnlargeStirrup:
+                stirHeight+=self.enlargementSpacingofStir
 
 
         
@@ -86,7 +90,7 @@ class SteelBar_module(MyModel):
             
 
         
-        for k in range(numberofEnlargeStirrup):
+        for k in range(int(numberofEnlargeStirrup+1)):
             a.Instance(name='stirrup-'+str(i+j+k+2), part=p, dependent=ON)
             a.translate(instanceList=('stirrup-'+str(i+j+k+2), ), vector=(self.coverThickness,stirHeight, 0.0))
             stirHeight+=self.enlargementSpacingofStir
@@ -96,8 +100,9 @@ class SteelBar_module(MyModel):
         
         edges0 = a.instances['stirrup-0'].edges.getSequenceFromMask(mask=('[#1 ]', ), )
         edges=edges0
-        for i in range(1,numberofEnlargeStirrup+2*numberofNonenlargeStirrup+2):
-            edges=edges+a.instances['stirrup-'+str(i)].edges.getSequenceFromMask(mask=('[#1 ]', ), )
+        for i in a.instances.keys():
+            if i[0:3]=='sti':
+                edges=edges+a.instances[i].edges.getSequenceFromMask(mask=('[#1 ]', ), )
         
         for i in range(self.numberofLongui):
             edges=edges+a.instances['longuiBar-'+str(i)].edges.getSequenceFromMask(mask=('[#1 ]', ), )
